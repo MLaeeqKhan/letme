@@ -1,46 +1,132 @@
-import React from 'react'
-import profileImg from'../images/profile.png'
+import React,{useState} from "react";
+import profileImg from "../images/profile.png";
+
 
 const Thread = () => {
+
+  const [reply, setReply]=useState({replyContent:""}); 
+  let name, value;
+  const handleInputs=(e)=>{
+  name=e.target.name;
+  value=e.target.value;
+  setReply({...reply,[name]:value});
+  } 
+
+  const postDate=async (e)=>{
+    e.preventDefault();
+    
+   const {replyContent}=reply;
+//    console.log("Email:"+email);
+    const res = await fetch("/reply",{ 
+       method:"POST",
+       headers:{
+         "content-type":"application/json"
+       },
+       
+       body: JSON.stringify({replyContent})
+    });
+    const data = await res.json();
+    console.log(data);
+  
+   
+   }
+
   return (
     <>
-     <div class="jumbotron">
-    <h2>'.$title.'</h2>      
-   <pre class="scroll"> '.$desc.'</pre>
-    <hr/>
-    <p class="p">This is a peer to peer forum. No Spam / Advertising / Self-promote in the forums is not allowed. Do not post copyright-infringing material. Do not post “offensive” posts, links or images. Do not cross post questions. Remain respectful of other members at all times.</p> 
-    <p class="user"><h2>Posted by: 'Khan@.com'</h2></p>
-  </div>
+      <div class="jumbotron">
+        <h2>Programmatically navigate using React router</h2>
+        <pre class="scroll">
+          {" "}
+          With react-router I can use the Link element to create links which are
+          natively handled by react router. I see internally it calls
+          this.context.transitionTo(...). I want to do a navigation. Not from a
+          link, but from a dropdown selection (as an example). How can I do this
+          in code? What is this.context? I saw the Navigation mixin, but can I
+          do this without mixins?
+        </pre>
+        <hr />
+        <p class="p">
+          This is a peer to peer forum. No Spam / Advertising / Self-promote in
+          the forums is not allowed. Do not post copyright-infringing material.
+          Do not post “offensive” posts, links or images. Do not cross post
+          questions. Remain respectful of other members at all times.
+        </p>
+        <p class="user">
+          <h2>Posted by: 'Khan@.com'</h2>
+        </p>
+      </div>
 
-  <form class="form" action="" method="post">
-     <h1>Post a Reply</h1>
-   
-    <div class="input">Type your Reply: <textarea name="reply" rows="10" required></textarea>
-   
-    </div>
+      <form class="form" action="" method="POST">
+        <h1>Post a Reply</h1>
 
-    {/* <input  type="hidden" name="user_id" value="'.$_SESSION["userid"].'"/> */}
+        <div class="input">
+          Type your Reply: <textarea name="reply" rows="10" onChange={handleInputs} value={reply.reply} required></textarea>
+        </div>
 
-    <div class="input"> <input class="btn" type="submit" value="submit"/>
-   </div>
-  </form>
+        {/* <input  type="hidden" name="user_id" value="'.$_SESSION["userid"].'"/> */}
 
-  <center><div class="media" style={{color:"red",width:"40rem",paddingtop: "0.8rem",borderradius: "1.6rem"}}><p>You are not logged in. Please login to be able to start a discussion!</p></div></center>
-  
-  <div class="parent">
- <div class="media">
- <div class="imge" >
-     <img style={{width: "4rem"}} src={profileImg} alt="profile img" />
- </div>
- <div class="name" ><p >khan@.com</p> </div>
- <div class="cont">
-     <div><pre>hjdhfj jdjf jsd ffdj jdsh  jhjshj hjs </pre></div>
-     <p><hr/></p>
-     <div class="dateTime"><p>11:00 pm</p></div>
- </div>
- </div>
- </div>
-  <style>{`
+        <div class="input">
+          {" "}
+          <input class="btn" onClick={postDate} type="submit" value="submit" />
+        </div>
+      </form>
+
+      <center>
+        <div
+          class="media"
+          style={{
+            color: "red",
+            width: "40rem",
+            paddingtop: "0.8rem",
+            borderradius: "1.6rem",
+          }}
+        >
+          {/* <p>
+            You are not logged in. Please login to be able to start a
+            discussion!
+          </p> */}
+        </div>
+      </center>
+
+      <div class="parent">
+        <div class="media">
+          <div class="imge">
+            <img style={{ width: "4rem" }} src={profileImg} alt="profile img" />
+          </div>
+          <div class="name">
+            <p>khan@.com</p>{" "}
+          </div>
+          <div class="cont">
+            <div>
+            <pre>
+import &#123; useNavigate &#125; from "react-router-dom";
+
+function HomeButton() &#123;
+  const navigate = useNavigate();
+
+  function handleClick() &#123;
+    navigate("/home");
+  &#125;
+
+  return (
+    &lt;button type="button" onClick=&#123;handleClick&#125;&gt; Go home &lt;/button&gt;
+  );
+&#125;
+</pre>
+
+
+
+            </div>
+            <p>
+              <hr />
+            </p>
+            <div class="dateTime">
+              <p>11:00 pm</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <style>{`
      html{
         font-size: 100%;
     }
@@ -97,6 +183,7 @@ const Thread = () => {
         
         textarea{
         border: none;
+        padding:10px;
         box-shadow: 0 1rem 1rem -0.7rem rgba(0, 0, 0, 0.4);
         border-radius: 7px;
         
@@ -146,7 +233,7 @@ const Thread = () => {
     }
   `}</style>
     </>
-  )
-}
+  );
+};
 
-export default Thread
+export default Thread;

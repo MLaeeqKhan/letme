@@ -19,7 +19,7 @@ const HireDev = () => {
      <Link to="/Profile"> <div className="DeveProfile">
         <img className="image" style={{width: "4rem"}} src={profileImg} width={50} height={50} alt="profile img"></img>
         <div className="DeveContent"><h4>M. Sannan Abid</h4>
-        <small>NERN Stack Developer</small>
+        <small>React Developer</small>
         </div>
       </div></Link>
      <Link to="/Profile"> <div className="DeveProfile">

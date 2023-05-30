@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const threadsSchema= new mongoose.Schema({
-    treadTile:{
+    threadTile:{
         type:String,
         required:true
     },
@@ -21,12 +21,7 @@ const threadsSchema= new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'userShema',
         required: true
-      },
-    threadID:{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'categoriesShema',
-        required: true
-    },
+      }
     
 })
 

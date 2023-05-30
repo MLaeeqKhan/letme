@@ -5,6 +5,8 @@ const jwt=require('jsonwebtoken');
 require('../DB/conn');
 const authenticate= require ('../midleware/authenticate');
 const User = require('../Models/UserSchema');
+const Thread=require('../Models/threadsSchema');
+const Reply = require('../Models/Replies');
 
 
 router.get('/',(req,res)=>{
@@ -68,6 +70,36 @@ else{
     console.log(error)
 }
 })
+
+// Thread
+router.post('/thread',async(req,res)=>{
+    console.log("thread");
+    const {threadTile,threadDesc,threadCatId,userID}=req.body;
+    
+   
+try {
+    // let id=1;
+        const thread =new Thread({threadTile,threadDesc,threadCatId,userID});
+        await  thread.save();
+         console.log("thread");
+
+}catch(err){console.log(err);
+    console.log("thread");
+    console.log("thread Data: threadTile:"+threadTile+" threadDesc:"+threadDesc+" threadCatId:"+threadCatId+" userID:"+userID);};
+});
+
+// Repies
+router.post('/reply',async(req,res)=>{
+    console.log("reply");
+    const {threadTile,threadDesc}=req.body;
+    console.log("reply auth:"+threadTile);
+   
+try {
+        const reply =new Reply({threadTile,threadDesc});
+        await  reply.save();
+}catch(err){console.log(err)};
+});
+
 
 // about us page
 router.get('/profile',authenticate,(req,res)=>{

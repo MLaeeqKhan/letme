@@ -14,24 +14,10 @@ const Signup = () => {
 
   const postDate=async (e)=>{
    e.preventDefault();
-  //  const res = await axios.post('/signup',{...user}) //axios is better according to me for apis instead of fetch, ye ... user kpo spread operator(...) kehty hain search ker lein
-  //  console.log(res);
-  //  console.log("Email:"+user);
-  //  const data = await res.json();
-  //  if(data.status===422 || !data){
-  //   window.alert("Invalid Registraion");
-  //   console.log("Invalid Registraion");
-  //  }
-  //  else{
-  //   window.alert(" Registraion Successful");
-  //   console.log("Registraion Successful");
-  //   navigator("/Login");
-
-  //  }
-
+   
   const {email,pass,cPass}=user;
   console.log("Email:"+email);
-   const res = await fetch("/signup",{ // ye /api/auth kahan hy?
+   const res = await fetch("/signup",{ 
       method:"POST",
       headers:{
         "content-type":"application/json"
