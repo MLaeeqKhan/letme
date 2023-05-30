@@ -91,13 +91,15 @@ try {
 // Repies
 router.post('/reply',async(req,res)=>{
     console.log("reply");
-    const {threadTile,threadDesc}=req.body;
-    console.log("reply auth:"+threadTile);
+    const {replyContent,userID,threadID}=req.body;
+   ;
    
 try {
-        const reply =new Reply({threadTile,threadDesc});
+        const reply =new Reply({replyContent,userID,threadID});
         await  reply.save();
 }catch(err){console.log(err)};
+console.log("reply auth:")
+console.log("Reply Data: replyContent:"+replyContent+" userID:"+userID+" threadID:"+threadID);
 });
 
 

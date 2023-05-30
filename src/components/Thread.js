@@ -1,8 +1,12 @@
 import React,{useState} from "react";
 import profileImg from "../images/profile.png";
+import {useParams} from 'react-router-dom';
 
 
 const Thread = () => {
+
+  const params = useParams();
+    console.log(params);
 
   const [reply, setReply]=useState({replyContent:""}); 
   let name, value;
@@ -16,6 +20,13 @@ const Thread = () => {
     e.preventDefault();
     
    const {replyContent}=reply;
+
+   const data = {
+    replyContent,
+    threadID: params.threadID, 
+    userID: localStorage.getItem('_id'),
+  };
+
 //    console.log("Email:"+email);
     const res = await fetch("/reply",{ 
        method:"POST",
@@ -23,10 +34,10 @@ const Thread = () => {
          "content-type":"application/json"
        },
        
-       body: JSON.stringify({replyContent})
+       body: JSON.stringify({...data})
     });
-    const data = await res.json();
-    console.log(data);
+    const respoce = await res.json();
+    console.log(respoce);
   
    
    }
