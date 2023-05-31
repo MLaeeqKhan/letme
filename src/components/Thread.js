@@ -132,7 +132,7 @@ const Thread = () => {
       </center>
 
       <div className="parent">
-      {replies.map((item)=>  <div className="media">
+      {replies.map((item)=>(item.threadID===threadID)? ( <div className="media">
           <div className="imge">
             <img style={{ width: "4rem" }} src={profileImg} alt="profile img" />
           </div>
@@ -152,7 +152,7 @@ const Thread = () => {
               <p>{item.date}</p>
             </div>
           </div>
-        </div>)}
+        </div>):null)}
       </div>
       <style>{`
      html{
