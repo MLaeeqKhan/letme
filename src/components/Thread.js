@@ -1,90 +1,122 @@
-import React,{useState} from "react";
+import React, { useState, useEffect,useContext } from "react";
 import profileImg from "../images/profile.png";
-import {useParams} from 'react-router-dom';
+import { useParams } from "react-router-dom";
+import { getThreads } from "../apis/threadApi";
+import { AuthContext } from '../contexts/AuthContext';
+import { getReplies } from "../apis/replyApis";
 
 
 const Thread = () => {
-
   const params = useParams();
-    console.log(params);
-
-  const [reply, setReply]=useState({replyContent:""}); 
+  const threadID = params.threadID;
+  const { UserID } = useContext(AuthContext);
+    console.log("userID:",UserID);
+  const [threads, setThreads] = useState([]);
+  const [replies, setreplies] = useState([]);
+  useEffect(() => {
+    fetchData();
+  }, []);
+  const fetchData = async () => {
+    const resThreads = await getThreads();
+    const resReplies=await getReplies();
+    // console.log(resThreads);
+    setThreads(resThreads.data.thread);
+    setreplies(resReplies.data.reply)
+  };
+  const [reply, setReply] = useState({ replyContent: "" });
   let name, value;
-  const handleInputs=(e)=>{
-  name=e.target.name;
-  value=e.target.value;
-  setReply({...reply,[name]:value});
-  } 
-
-  const postDate=async (e)=>{
-    e.preventDefault();
-    
-   const {replyContent}=reply;
-
-   const data = {
-    replyContent,
-    threadID: params.threadID, 
-    userID: localStorage.getItem('_id'),
+  const handleInputs = (e) => {
+    name = e.target.name;
+    value = e.target.value;
+    setReply({ ...reply, [name]: value });
   };
 
-//    console.log("Email:"+email);
-    const res = await fetch("/reply",{ 
-       method:"POST",
-       headers:{
-         "content-type":"application/json"
-       },
-       
-       body: JSON.stringify({...data})
+  const postDate = async (e) => {
+    e.preventDefault();
+
+    const { replyContent } = reply;
+
+    //  const data = {
+    //   replyContent,
+    //   threadID: params.threadID,
+    //   userID: localStorage.getItem('_id'),
+    // };
+
+    //    console.log("Email:"+email);
+    const res = await fetch("/reply", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+
+      body: JSON.stringify({ replyContent: replyContent, threadID: threadID, userID:UserID }),
     });
-    const respoce = await res.json();
-    console.log(respoce);
-  
-   
-   }
+    const response = await res.json();
+    //  console.log(data);
+    if (res.status === 200 || response) {
+      window.alert("Data save");
+      // navigator(`/ThreadList/${CatID}`);
+    } else {
+      window.alert("Please fill the data");
+      // console.log("Invalid Registration");
+    }
+  };
 
   return (
     <>
-      <div class="jumbotron">
-        <h2>Programmatically navigate using React router</h2>
-        <pre class="scroll">
-          {" "}
-          With react-router I can use the Link element to create links which are
-          natively handled by react router. I see internally it calls
-          this.context.transitionTo(...). I want to do a navigation. Not from a
-          link, but from a dropdown selection (as an example). How can I do this
-          in code? What is this.context? I saw the Navigation mixin, but can I
-          do this without mixins?
-        </pre>
-        <hr />
-        <p class="p">
-          This is a peer to peer forum. No Spam / Advertising / Self-promote in
-          the forums is not allowed. Do not post copyright-infringing material.
-          Do not post “offensive” posts, links or images. Do not cross post
-          questions. Remain respectful of other members at all times.
-        </p>
-        <p class="user">
-          <h2>Posted by: 'Khan@.com'</h2>
-        </p>
-      </div>
+      {threads.map((item) =>
+        threadID === item._id ? (
+          <div className="jumbotron">
+            <h2>{item.threadTile}</h2>
+            <pre className="scroll">{item.threadDesc}</pre>
 
-      <form class="form" action="" method="POST">
+            <hr />
+            <p className="p">
+              This is a peer to peer forum. No Spam / Advertising / Self-promote
+              in the forums is not allowed. Do not post copyright-infringing
+              material. Do not post “offensive” posts, links or images. Do not
+              cross post questions. Remain respectful of other members at all
+              times.
+            </p>
+            <p className="user">
+              <h2>Posted by: {item.userID}</h2>
+            </p>
+          </div>
+        ) : (
+          <p></p>
+        )
+      )}
+
+      <form className="form" action="" method="POST">
         <h1>Post a Reply</h1>
 
-        <div class="input">
-          Type your Reply: <textarea name="reply" rows="10" onChange={handleInputs} value={reply.reply} required></textarea>
+        <div className="input">
+          Type your Reply:{" "}
+          <textarea
+            name="replyContent"
+            rows="10"
+            onChange={handleInputs}
+            value={reply.reply}
+            required
+          ></textarea>
         </div>
 
         {/* <input  type="hidden" name="user_id" value="'.$_SESSION["userid"].'"/> */}
 
-        <div class="input">
+        <div className="input">
           {" "}
-          <input class="btn" onClick={postDate} type="submit" value="submit" />
+          <input
+            className="btn"
+            onClick={postDate}
+            type="submit"
+            value="submit"
+          />
         </div>
       </form>
 
       <center>
         <div
-          class="media"
+          className="media"
           style={{
             color: "red",
             width: "40rem",
@@ -99,43 +131,28 @@ const Thread = () => {
         </div>
       </center>
 
-      <div class="parent">
-        <div class="media">
-          <div class="imge">
+      <div className="parent">
+      {replies.map((item)=>  <div className="media">
+          <div className="imge">
             <img style={{ width: "4rem" }} src={profileImg} alt="profile img" />
           </div>
-          <div class="name">
-            <p>khan@.com</p>{" "}
+          <div className="name">
+            <p>{item.userID}</p>{" "}
           </div>
-          <div class="cont">
+          <div className="cont">
             <div>
-            <pre>
-import &#123; useNavigate &#125; from "react-router-dom";
-
-function HomeButton() &#123;
-  const navigate = useNavigate();
-
-  function handleClick() &#123;
-    navigate("/home");
-  &#125;
-
-  return (
-    &lt;button type="button" onClick=&#123;handleClick&#125;&gt; Go home &lt;/button&gt;
-  );
-&#125;
-</pre>
-
-
-
+              <pre>
+                {item.replyContent}
+              </pre>
             </div>
             <p>
               <hr />
             </p>
-            <div class="dateTime">
-              <p>11:00 pm</p>
+            <div className="dateTime">
+              <p>{item.date}</p>
             </div>
           </div>
-        </div>
+        </div>)}
       </div>
       <style>{`
      html{

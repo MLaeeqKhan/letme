@@ -42,8 +42,8 @@ function App() {
       <Route exact path="/YourQ" element={<YourQ/>}/>
       <Route exact path="/CreateProfile" element={<CreateProfile/>}/>
       <Route exact path="/ThreadList" element={<ThreadList/>}/>
-      <Route exact path="/ThreadList/:category" element={<ThreadList/>}/>
-      <Route exact path="/Thread" element={<Thread/>}/>
+      <Route exact path="/ThreadList/:catID" element={<ThreadList/>}/>
+      <Route exact path="/Thread/:threadID" element={<Thread/>}/>
       
       {/* <Route exact path="/Profile" element={<Profile/>}/> */}
       {/* <Route element={<ErrorPage />}/> */}

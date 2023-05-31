@@ -10,12 +10,12 @@ const repliesSchema= new mongoose.Schema({
     },
     userID:{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'userSchema',
+        ref: 'USER',
         required: true
     },
     threadID:{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'threadsSchema',
+        ref: 'THREADS',
         required: true
     },
     

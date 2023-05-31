@@ -7,7 +7,9 @@ import { FiChevronDown } from "react-icons/fi";
 import { AuthContext } from "../contexts/AuthContext";
 
 const NavBar = () => {
-  const { token, logoutUser,setUserToken } = useContext(AuthContext);
+  const { token, logoutUser, setUserToken } = useContext(AuthContext);
+  const { UserID } = useContext(AuthContext);
+  console.log("userID:",UserID);
 
   const navigate = useNavigate();
   let [showNavBar, setNavBar] = useState("none");
@@ -22,16 +24,16 @@ const NavBar = () => {
   };
 
 
-  
-useEffect(() => {
-  const data = localStorage.getItem("token")
 
-  if (data) {
-  console.log("data",data);
-    setUserToken(data)
-  }
+  useEffect(() => {
+    const data = JSON.parse(localStorage.getItem("data"))
+
+    if (data) {
+      console.log("data", data);
+      setUserToken(data)
+    }
   }, [])
-  
+
 
   const hanldeDropDownManue = () => {
     if (showServices === "none") {

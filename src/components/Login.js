@@ -24,7 +24,7 @@ const Login = () => {
     if (res.status === 400 || !data) {
       window.alert("Invalid Credential");
     } else {
-      setUserToken(data.token)
+      setUserToken(data)
       
       // localStorage.setItem("token",JSON.stringify(data.token));
       window.alert("Login Successfull");

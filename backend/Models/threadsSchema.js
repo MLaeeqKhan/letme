@@ -14,12 +14,12 @@ const threadsSchema= new mongoose.Schema({
     },
       threadCatId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'catShema',
+        ref: 'CATEGORIES',
         required: true
       },
       userID: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'userShema',
+        ref: 'USER',
         required: true
       }
     

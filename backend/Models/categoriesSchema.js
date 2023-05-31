@@ -1,5 +1,6 @@
 const mongoose= require('mongoose')
-
+// backend ki file frontend my import nahi ker sakty 
+// tu ny ye use kyu kern yhy
 
 const categoriesShema=new mongoose.Schema({
 categoriesName:{

@@ -1,13 +1,38 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect,useContext} from 'react'
 import ProfileImg from '../images/profile.png'
 import {Link, useParams} from 'react-router-dom'
+import {getThreads} from '../apis/threadApi';
+import { getCategories } from "../apis/categoryApi";
+import { AuthContext } from '../contexts/AuthContext';
+// import {useNavigate} from 'react-router-dom'
+
 
 const ThreadList = () => {
-
+  // const navigator=useNavigate();
     const params = useParams()
-    console.log(params);
+    const CatID =params.catID
+    // console.log("params:",CatID);
+    const { UserID } = useContext(AuthContext);
+    console.log("userID:",UserID);
+
+    const { token,setUserToken } = useContext(AuthContext);
+    const [categories, setCategories] = useState([]);
+    const [threads, setThreads] = useState([]);
+    useEffect(() => {
+      fetchData();
+      
+    }, []);
+    const fetchData = async () => {
+      const resCategories = await getCategories();
+      const resThreads = await getThreads();
+      // console.log(resThreads);
+      setCategories(resCategories.data.category)
+      setThreads(resThreads.data.thread)
+    };
+
+    
     //  const userId = localStorage.getItem('userId');
-    const [question, setQuestion]=useState({threadTile:"",threadDesc:""}); 
+    const [question, setQuestion]=useState({threadTile:"",threadDesc:"",threadCatId:"",userID:""}); 
     let name, value;
     const handleInputs=(e)=>{
     name=e.target.name;
@@ -18,78 +43,122 @@ const ThreadList = () => {
     const postDate=async (e)=>{
         e.preventDefault();
         
-       const {threadTile,threadDesc}=question;
+       const {threadTile,threadDesc,threadCatId,userID}=question;
 
-       const data = {
-        threadTile,
-        threadDesc,
-        threadCatId: params.threadCatId, 
-        userID: localStorage.getItem('_id'),
-      };
-    //    console.log("Email:"+email);
+      console.log("userID:"+question.userID+" threadCatId:"+question.threadCatId+" CatID:"+CatID);
+   
+       try {
         const res = await fetch("/thread",{ 
-           method:"POST",
-           headers:{
-            "content-type":"application/json"
-           },
-           
-           body: JSON.stringify({...data})
-        });
-        const responce = await res.json();
-        console.log(responce);
+          method:"POST",
+          headers:{
+           "Content-Type":"application/json"
+          },
+          
+          body: JSON.stringify({ threadTile:threadTile,
+              threadDesc:threadDesc,
+              threadCatId:CatID, 
+              userID:UserID})
+       });
+       const response = await res.json();
+  //  console.log(data);
+   if(res.status===200 || response){
+   
+
+    window.alert("Data save");
+    // navigator(`/ThreadList/${CatID}`);
+
+   }
+   else{
+     window.alert("Please fill the data");
+    // console.log("Invalid Registration");
+   }
+       } catch (error) {
+        console.log('Error:', error);
+        
+       }
+       
       
        
        }
   
    
-    
+       useEffect(() => {
+        const data = localStorage.getItem("token")
+      
+        if (data) {
+        console.log("data",data);
+          setUserToken(data)
+        }
+        }, [])
+
   return (
     <>
-      <div class="jumbotron">
-    <h1>Welcome to React - Coding Forums</h1>      
-    <p>React is a free and open-source front-end JavaScript library for building user interfaces based on components. It is maintained by Meta and a community of individual developers and companies.</p>
+      <div className="jumbotron">
+    {categories.map((item)=>((CatID===item._id)?(<div><h1>Welcome to {item.categoryName} - Coding Forums</h1>      
+    <p>{item.categoryDesc}</p>
+    </div>):(<p></p>)))}
     <hr/>
-    <p class="p"><details><summary><strong>Instraction</strong></summary> This is a peer to peer forum. No Spam / Advertising / Self-promote in the forums is not allowed. Do not post copyright-infringing material. Do not post “offensive” posts, links or images. Do not cross post questions. Remain respectful of other members at all times.</details></p>   
+    <p className="p"><details><summary><strong>Instraction</strong></summary> This is a peer to peer forum. No Spam / Advertising / Self-promote in the forums is not allowed. Do not post copyright-infringing material. Do not post “offensive” posts, links or images. Do not cross post questions. Remain respectful of other members at all times.</details></p>   
   
   </div>
 
-  <div><form class="form"  action="" method="POST">
-  <h1 class="heading">Start a Discussions</h1>
-    <div class="input"> Problem Title: <input style={{height: "40px;"}} type="text" name="threadTile" onChange={handleInputs} value={question.threadTile} required/>
+  {token?(<div><form className="form"  action="" method="POST">
+  <h1 className="heading">Start a Discussions</h1>
+    <div className="input"> Problem Title: <input style={{height: "40px;"}} type="text" name="threadTile" onChange={handleInputs} value={question.threadTile} required/>
     <small>Keep your title short and crispy as posible</small></div>
 
-    <div class="input">Elaborate your Question: <textarea type="text" name="threadDesc" onChange={handleInputs} value={question
+    <div className="input">Elaborate your Question: <textarea type="text" name="threadDesc" onChange={handleInputs} value={question
     .threadDesc} rows="10" required></textarea></div>
 
     {/* <input  type="hidden" name="user_id" value="'.$_SESSION["userid"].'"> */}
- <input  type="hidden" name="threadCatId" value={params}/>
-    <div class="input"> <input class="btn" type="submit" value="submit" onClick={postDate}/>
+ <input  type="hidden" name="threadCatId"  value={CatID}/>
+ <input  type="hidden" name="userID"  value={UserID}/>
+    <div className="input"> <input className="btn" type="submit" value="submit" onClick={postDate}/>
    </div>
 
-  </form></div>
+  </form></div>):(<center><div className="media" style={{color:"red" ,width: "50%" ,paddingtop: "15px",borderradius: "1.6rem"}}><p>You are not logged in. Please login to be able to post a Question!</p></div></center>)}
 
-  {/* <center><div class="media" style={{color:"red" ,width: "50%" ,paddingtop: "15px",borderradius: "1.6rem"}}><p>You are not logged in. Please login to be able to post a Question!</p></div></center> */}
+  {threads && threads.length > 0 ? (
+  threads.map((item) =>
+    item.threadCatId === CatID ? (
+      <div className="media">
+        <div className="imge">
+          <img style={{ width: "4rem" }} src={ProfileImg} alt="profile img" />
+        </div>
+        <div className="name">
+          <p>{item.userID}</p>
+        </div>
+        <div className="cont">
+          <div className="title">
+            <Link to={`/Thread/${item._id}`}>
+              <p style={{ paddingLeft: "2rem" }}>{item.threadTile}</p>
+            </Link>
+          </div>
+          <div className="desc">
+            <p style={{ paddingLeft: "2rem" }}>{item.threadDesc.substring(0,200)}</p>
+          </div>
+          <p>
+            <hr />
+          </p>
+          <div className="dateTime">
+            <p style={{ paddingLeft: "2rem" }}>{item.date}</p>
+          </div>
+        </div>
+      </div>
+    ) : null
+  )
+) : (
+  <center>
+    <div
+      className="media"
+      style={{ width: "30%", paddingTop: "1.6rem", borderRadius: "1.6rem" }}
+    >
+      <p>Be the first person to ask the question</p>
+    </div>
+  </center>
+)}
 
-  <div  class="media">
- <div class="imge" >
-     <img style={{width: "4rem"}} src={ProfileImg} alt="profile img" />
- </div>
- <div class="name" ><p >Khan@.com</p> </div>
- <div class="cont">
-     <div class="title"><Link to="/thread"><p style= {{paddingleft:"2rem"}}>Programmatically navigate using React router</p> </Link></div>
- 
-     <div class="desc"><p style={{paddingleft:"2rem"}}>With react-router I can use the Link element to create links which are natively handled by react router.
 
-I see internally it calls this.context.transitionTo(...).
-
-I want to do a navigation. Not from a link, but from a dropdown selection (as an example). How can I do this in code? What is this.context?
-
-I saw the Navigation mixin, but can I do this without mixins?</p></div>
-     <p><hr/></p>
-     <div class="dateTime"><p style={{ paddingleft:"2rem"}}>
-      11:00 pm</p></div>
- </div>
- </div>
 
   <style>={`
    html{

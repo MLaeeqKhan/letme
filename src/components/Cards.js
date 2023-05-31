@@ -1,137 +1,56 @@
-import card1 from "../images/icon-1.png";
+import { useState, useEffect } from "react";
+import { getCategories } from "../apis/categoryApi";
+import card_1 from "../images/icon-1.png";
+import card_2 from "../images/icon-2.png";
+import card_3 from "../images/icon-3.png";
+import card_4 from "../images/icon-4.png";
+import card_5 from "../images/icon-5.png";
+import card_6 from "../images/icon-6.png";
+
 import { Link } from "react-router-dom";
 
 const Cards = () => {
-  const data = [
-    {
-      category: "react",
-      id: 1,
-    },
-    {
-      category: "python",
-      id: 2,
-    },
-    {
-      category: "python",
-      id: 2,
-    },
+  const [categories, setCategories] = useState([]);
+  useEffect(() => {
+    fetchCategory();
+  }, []);
+  const fetchCategory = async () => {
+    const res = await getCategories();
+    // console.log(res);
+    setCategories(res.data.category);
+  };
+
+  const imageUrls = [
+    card_1,
+    card_2,
+    card_3,
+    card_4,
+    card_5,
+    card_6,
+    // Add more image URLs as needed
   ];
+
   return (
     <div>
       <div className="card-container">
         <h1 className="heading">letMe Categories</h1>
 
         <div className="card-box-container">
-          {data.map((item) => (
-            <div className="box">
+          {categories.map((item, index) => (
+            <div className="box" key={item._id}>
               <Link to="">
                 {" "}
-                <img src={card1} alt="Cards" />{" "}
+                <img src={imageUrls[index]} alt="Cards" />
               </Link>
               <h3>
-                <Link to="">{item.category}</Link>
+                <Link to="">{item.categoryName}</Link>
               </h3>
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Voluptatum itaque incidunt quas soluta dolore voluptates culpa.
-                Eveniet praesentium assumenda sint, blanditiis nisi non.
-                Minus!...
-              </p>
-              <Link to={`/threadlist/${item.id}`} className="btn">
+              <p>{item.categoryDesc.substring(0, 100)}</p>
+              <Link to={`/threadlist/${item._id}`} className="btn">
                 read more
               </Link>
             </div>
           ))}
-
-          <div className="box">
-            <Link to="">
-              {" "}
-              <img src={card1} alt="" />{" "}
-            </Link>
-            <h3>
-              <Link to="">React</Link>
-            </h3>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Voluptatum itaque incidunt quas soluta dolore voluptates culpa.
-              Eveniet praesentium assumenda sint, blanditiis nisi non. Minus!...
-            </p>
-            <Link to="" className="btn">
-              read more
-            </Link>
-          </div>
-
-          <div className="box">
-            <Link to="">
-              {" "}
-              <img src={card1} alt="" />{" "}
-            </Link>
-            <h3>
-              <Link to="">React</Link>
-            </h3>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Voluptatum itaque incidunt quas soluta dolore voluptates culpa.
-              Eveniet praesentium assumenda sint, blanditiis nisi non. Minus!...
-            </p>
-            <Link to="" className="btn">
-              read more
-            </Link>
-          </div>
-
-          <div className="box">
-            <Link to="">
-              {" "}
-              <img src={card1} alt="" />{" "}
-            </Link>
-            <h3>
-              <Link to="">React</Link>
-            </h3>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Voluptatum itaque incidunt quas soluta dolore voluptates culpa.
-              Eveniet praesentium assumenda sint, blanditiis nisi non. Minus!...
-            </p>
-            <Link to="" className="btn">
-              read more
-            </Link>
-          </div>
-
-          <div className="box">
-            <Link to="">
-              {" "}
-              <img src={card1} alt="" />{" "}
-            </Link>
-            <h3>
-              <Link to="">React</Link>
-            </h3>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Voluptatum itaque incidunt quas soluta dolore voluptates culpa.
-              Eveniet praesentium assumenda sint, blanditiis nisi non. Minus!...
-            </p>
-            <Link to="" className="btn">
-              read more
-            </Link>
-          </div>
-
-          <div className="box">
-            <Link to="">
-              {" "}
-              <img src={card1} alt="" />{" "}
-            </Link>
-            <h3>
-              <Link to="">React</Link>
-            </h3>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Voluptatum itaque incidunt quas soluta dolore voluptates culpa.
-              Eveniet praesentium assumenda sint, blanditiis nisi non. Minus!...
-            </p>
-            <Link to="" className="btn">
-              read more
-            </Link>
-          </div>
         </div>
 
         <div className="card-box-container"></div>

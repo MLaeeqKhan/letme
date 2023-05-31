@@ -16,7 +16,7 @@ const Signup = () => {
    e.preventDefault();
    
   const {email,pass,cPass}=user;
-  console.log("Email:"+email);
+  // console.log("Email:"+email);
    const res = await fetch("/signup",{ 
       method:"POST",
       headers:{

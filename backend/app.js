@@ -6,9 +6,12 @@ const cors = require("cors");
 dotenv.config({ path: "./config.env" });
 const PORT = process.env.PORT;
 const authRouter = require("./Router/auth");
+const categoryRouter = require("./Router/categories");
 const connection = require("../backend/DB/conn");
 
+
 require("../backend/DB/conn");
+
 
 app.use(express.json());
 // app.use(cors()); // ye use kerna lazmy hy is ky begair server kisy ko b request bhejny nahi deta
@@ -16,6 +19,7 @@ app.use(express.json());
 // app.use(require('./Router/auth'));
 
 app.use("/", authRouter); // ye use ker ziada better hy
+app.use("/", categoryRouter); // ye use ker ziada better hy
 
 // app.get('/',(req,res)=>{
 //     res.send(`hello server`);
