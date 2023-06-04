@@ -7,7 +7,7 @@ const authenticate = require("../midleware/authenticate");
 const User = require("../Models/UserSchema");
 const Thread = require("../Models/threadsSchema");
 const Reply = require("../Models/Replies");
-
+const CreateProfile = require('../Models/DeveloperSchema');
 
 router.get("/", (req, res) => {
   res.send(`Hello from sever router`);
@@ -60,10 +60,10 @@ router.post("/signin", async (req, res) => {
       });
       if (isMatch) {
         res.status(200).json({
-            message: "User Signin Successfully:",
-            token,
-            user: userExist,
-          });
+          message: "User Signin Successfully:",
+          token,
+          user: userExist,
+        });
       } else {
         res.status(400).json({ error: "Invalid Credientials:" });
       }
@@ -76,11 +76,17 @@ router.post("/signin", async (req, res) => {
 // Thread
 router.post("/thread", async (req, res) => {
   console.log("thread");
-  const { threadTile, threadDesc, threadCatId, userID } = req.body;
+  const { threadTile, threadDesc, threadCatId, userID, userEmail } = req.body;
 
   try {
-    const thread = new Thread({ threadTile, threadDesc, threadCatId, userID });
-    const succ=await thread.save();
+    const thread = new Thread({
+      threadTile,
+      threadDesc,
+      threadCatId,
+      userID,
+      userEmail,
+    });
+    const succ = await thread.save();
     console.log("thread auth");
     console.log("thread");
     console.log(
@@ -93,15 +99,14 @@ router.post("/thread", async (req, res) => {
         " userID:" +
         userID
     );
-    
-    if(succ){
+
+    if (succ) {
       res.status(200).json({
-        message: "Data save Successfully:"
+        message: "Data save Successfully:",
       });
-    }  else {
+    } else {
       res.status(400).json({ error: "Invalid Credientials:" });
     }
-
   } catch (err) {
     console.log(err);
     console.log("thread");
@@ -121,20 +126,18 @@ router.post("/thread", async (req, res) => {
 // Repies
 router.post("/reply", async (req, res) => {
   console.log("reply");
-  const { replyContent, userID, threadID } = req.body;
+  const { replyContent, userID, threadID, userEmail } = req.body;
   try {
-    const reply = new Reply({ replyContent, userID, threadID });
-    const succ=await reply.save();
+    const reply = new Reply({ replyContent, userID, threadID, userEmail });
+    const succ = await reply.save();
 
-
-    if(succ){
+    if (succ) {
       res.status(200).json({
-        message: "Data save Successfully:"
+        message: "Data save Successfully:",
       });
-    }  else {
+    } else {
       res.status(400).json({ error: "Invalid Credientials:" });
     }
-
   } catch (err) {
     console.log(err);
   }
@@ -149,9 +152,58 @@ router.post("/reply", async (req, res) => {
   );
 });
 
-// about us page
-router.get("/profile", authenticate, (req, res) => {
-  console.log("Hello from developer profile");
-  res.send(req.rootUser);
+// createProfile
+router.post("/createProfile",async (req, res) => {
+  console.log("createProfile");
+  const {
+    name,
+    areaOfTech,
+    experience,
+    jobType,
+    skills,
+    languages,
+    email,
+    gitHub,
+    linkedin,
+    facebook,
+    twitter,
+    instagram,
+    userID,
+  } = req.body;
+
+  try {
+    const developer=new CreateProfile({name,
+      areaOfTech,
+      experience,
+      jobType,
+      skills,
+      languages,
+      email,
+      gitHub,
+      linkedin,
+      facebook,
+      twitter,
+      instagram,
+      userID});
+      const succ=await developer.save();
+      if(succ)
+      {
+        res.status(200).json({message:"You Registered As a Developer Successfully!"})
+      }
+      else{
+        res.status(400).json({message:"You Not registered As a Developer Successfully!"})
+      }
+  } catch (error) {
+    console.log(error);
+    
+  }
 });
+
+
+
+// about us page
+// router.get("/profile", authenticate, (req, res) => {
+//   console.log("Hello from developer profile");
+//   res.send(req.rootUser);
+// });
 module.exports = router;

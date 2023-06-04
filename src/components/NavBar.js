@@ -8,9 +8,6 @@ import { AuthContext } from "../contexts/AuthContext";
 
 const NavBar = () => {
   const { token, logoutUser, setUserToken } = useContext(AuthContext);
-  const { UserID } = useContext(AuthContext);
-  console.log("userID:",UserID);
-
   const navigate = useNavigate();
   let [showNavBar, setNavBar] = useState("none");
   let [showServices, setServices] = useState("none");
@@ -18,13 +15,11 @@ const NavBar = () => {
   const handleNavBar = () => {
     if (showNavBar === "block") {
       setNavBar("none");
+      logout();
     } else {
       setNavBar("block");
     }
   };
-
-
-
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem("data"))
 
@@ -33,8 +28,6 @@ const NavBar = () => {
       setUserToken(data)
     }
   }, [])
-
-
   const hanldeDropDownManue = () => {
     if (showServices === "none") {
       setServices("block");
@@ -53,8 +46,8 @@ const NavBar = () => {
     <>
       <nav className="main-nav">
         <div className="logo">
-          <h2>letMe</h2>
-          {/* className={showMediaIcons? "manu-link mobile-manu-link": "manu-link"} */}
+
+          <Link to="/"><h2>letMe</h2></Link>
         </div>
 
         <div className="outer-mobile">
@@ -102,18 +95,26 @@ const NavBar = () => {
                   </div>
                 </div>
               </li>
-              <li>
-                <Link to="/Login" onClick={handleNavBar}>
-                  Login
+              
+                {token ? ( <div> <li><Link to="/Login" onClick={handleNavBar}>
+                  Logout
                 </Link>
               </li>
+              </div>):(<div><li><Link to="/Login" onClick={handleNavBar}>
+                  Login
+                </Link>
+              </li> 
+              
               <li>
-                <Link to="/Signup" onClick={handleNavBar}>
+                <Link to="/Signup" onClick={handleNavBar} >
+                
                   Signup
                 </Link>
               </li>
+              </div>
+              )}
               <li>
-                <Link to="/Profile" onClick={handleNavBar}>
+                <Link to={token ? "/CreateProfile" : "/login"} onClick={handleNavBar}>
                   {" "}
                   <FaUserCircle className="user-icon" />
                 </Link>

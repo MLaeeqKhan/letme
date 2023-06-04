@@ -10,6 +10,7 @@ const Thread = () => {
   const params = useParams();
   const threadID = params.threadID;
   const { UserID } = useContext(AuthContext);
+  const {userEmail} = useContext(AuthContext);
     console.log("userID:",UserID);
   const [threads, setThreads] = useState([]);
   const [replies, setreplies] = useState([]);
@@ -35,31 +36,28 @@ const Thread = () => {
     e.preventDefault();
 
     const { replyContent } = reply;
-
-    //  const data = {
-    //   replyContent,
-    //   threadID: params.threadID,
-    //   userID: localStorage.getItem('_id'),
-    // };
-
-    //    console.log("Email:"+email);
     const res = await fetch("/reply", {
       method: "POST",
       headers: {
         "content-type": "application/json",
       },
 
-      body: JSON.stringify({ replyContent: replyContent, threadID: threadID, userID:UserID }),
+      body: JSON.stringify({ replyContent: replyContent, threadID: threadID, userID:UserID,userEmail:userEmail }),
     });
     const response = await res.json();
-    //  console.log(data);
     if (res.status === 200 || response) {
       window.alert("Data save");
-      // navigator(`/ThreadList/${CatID}`);
+      resetFormFields();
+      fetchData();
     } else {
       window.alert("Please fill the data");
-      // console.log("Invalid Registration");
     }
+  };
+
+  const resetFormFields = () => {
+    setReply({
+      replyContent: ""
+    });
   };
 
   return (
@@ -79,7 +77,7 @@ const Thread = () => {
               times.
             </p>
             <p className="user">
-              <h2>Posted by: {item.userID}</h2>
+              <h2>Posted by: {item.userEmail}</h2>
             </p>
           </div>
         ) : (
@@ -96,7 +94,7 @@ const Thread = () => {
             name="replyContent"
             rows="10"
             onChange={handleInputs}
-            value={reply.reply}
+            value={reply.replyContent}
             required
           ></textarea>
         </div>
@@ -137,7 +135,7 @@ const Thread = () => {
             <img style={{ width: "4rem" }} src={profileImg} alt="profile img" />
           </div>
           <div className="name">
-            <p>{item.userID}</p>{" "}
+            <p>{item.userEmail}</p>{" "}
           </div>
           <div className="cont">
             <div>

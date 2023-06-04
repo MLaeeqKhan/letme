@@ -18,6 +18,11 @@ const repliesSchema= new mongoose.Schema({
         ref: 'THREADS',
         required: true
     },
+    userEmail: {
+        type: String,
+        ref: 'USER',
+        required: true
+      }
     
 })
 const replies=mongoose.model("REPLIES",repliesSchema);

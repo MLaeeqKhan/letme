@@ -21,7 +21,13 @@ const threadsSchema= new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'USER',
         required: true
+      },
+      userEmail: {
+        type: String,
+        ref: 'USER',
+        required: true
       }
+      
     
 })
 

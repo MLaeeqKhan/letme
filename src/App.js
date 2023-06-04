@@ -45,7 +45,7 @@ function App() {
       <Route exact path="/ThreadList/:catID" element={<ThreadList/>}/>
       <Route exact path="/Thread/:threadID" element={<Thread/>}/>
       
-      {/* <Route exact path="/Profile" element={<Profile/>}/> */}
+      <Route exact path="/Profile" element={<Profile/>}/>
       {/* <Route element={<ErrorPage />}/> */}
       
       </Routes>

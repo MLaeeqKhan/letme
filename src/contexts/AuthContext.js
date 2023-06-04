@@ -4,15 +4,17 @@ export const AuthContext = createContext(null);
 const AuthProvider = ({ children }) => {
   const [token, setToken] = useState();
   const [UserID, setUserID] = useState('')
+  const [userEmail, setUserEmail]= useState('');
 
 
-  // ye hy 
+  
 
   const setUserToken = (data) => {
     // console.log("context data", {data});
     localStorage.setItem("data", JSON.stringify(data));
     setToken(data?.token);
     setUserID(data?.user?._id)
+    setUserEmail(data?.user?.email);
 
   };
   
@@ -22,7 +24,7 @@ const AuthProvider = ({ children }) => {
     setToken();
   };
   return (
-    <AuthContext.Provider value={{ token, setUserToken, logoutUser, UserID }}>
+    <AuthContext.Provider value={{ token, setUserToken, logoutUser, UserID,userEmail }}>
       {children}
     </AuthContext.Provider>
   );

@@ -1,14 +1,47 @@
-import React from 'react';
-import ConvertorImg from '../images/dragDrop.webp'
+import React, { useState } from 'react';
+import { saveAs } from 'file-saver';
+import { Document, Packer, Paragraph } from 'docxtemplater';
+import axios from 'axios';
 
 const FileConv = () => {
-  function convertAndDownloadPNGtoJPG(){
+  const [selectedFile, setSelectedFile] = useState(null);
 
-  }
+  const handleFileChange = (event) => {
+    setSelectedFile(event.target.files[0]);
+  };
 
-  function convertAndDownloadJPGtoPNG(){
+  const convertToDOCX = async () => {
+    if (selectedFile) {
+      try {
+        const formData = new FormData();
+        formData.append('file', selectedFile);
 
-  }
+        const response = await axios.post('http://localhost:3000/FileConv', formData, {
+          responseType: 'arraybuffer',
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+
+        const pdfData = response.data;
+        const pdfArray = new Uint8Array(pdfData);
+        const pdfBlob = new Blob([pdfArray], { type: 'application/pdf' });
+
+        const reader = new FileReader();
+        reader.onload = function () {
+          const buffer = reader.result;
+          const doc = new Document(buffer);
+
+          const docxBlob = Packer.toBlob(doc);
+          saveAs(docxBlob, 'converted.docx');
+        };
+
+        reader.readAsArrayBuffer(pdfBlob);
+      } catch (error) {
+        console.error('Error converting PDF to DOCX:', error);
+      }
+    }
+  };
 
   return (
     <>
@@ -17,36 +50,15 @@ const FileConv = () => {
         <div id="image-container"> 
           <label for="png">Select File:
           <div className="FileSelect">
-          <input type="file" id="png" accept="image/*" />
+          <input type="file" id="png" accept="application/pdf" onChange={handleFileChange}/>
         </div>
         </label>
-        <button className="FileButton" onclick={convertAndDownloadPNGtoJPG}>
-          Convert to JPG and Download
-        </button>
-        <button className="FileButton" onclick={convertAndDownloadJPGtoPNG}>
-          Convert to PNG and Download
+        <button className="FileButton" onClick={convertToDOCX} disabled={!selectedFile}>
+          Convert 
         </button>
         </div> 
-        <a
-          id="download-link-jpg"
-          className="button"
-          href=""
-          download="converted.JPG"
-        ></a>
-
-        <a
-          id="download-link-png"
-          className="button"
-          href=""
-          download="converted.png"
-        ></a>
+       
     </div>
-
-    <style>
-      {`
-     
-      `}
-    </style>
     </>
   )
 }
