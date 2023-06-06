@@ -1,31 +1,32 @@
+import React from 'react'
 import prolfileImg from "../images/laeeq.jpeg";
-import { Link } from "react-router-dom";
+import { Link,useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { getDeveloper } from "../apis/developerAPIs";
 import { AuthContext } from "../contexts/AuthContext";
-// import { useNavigate } from "react-router-dom";
-
-const Profile = () => {
-  const navigator =useNavigate();
-  const {UserID} = useContext(AuthContext);
-  const [flag,setFlag] = useState(false);
-  const [developer, setDeveloper] = useState([]);
-  const fetchData = async () => {
-    const isExist = await getDeveloper();
-    setDeveloper(isExist.data.developer);
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
+const ShowDev = () => {
+const params = useParams();
+const DevID= params.devID;
+console.log("DevID:"+DevID);
+    const navigator =useNavigate();
+    const {UserID} = useContext(AuthContext);
+    const [flag,setFlag] = useState(false);
+    const [developer, setDeveloper] = useState([]);
+    const fetchData = async () => {
+      const isExist = await getDeveloper();
+      setDeveloper(isExist.data.developer);
+    };
   
-  const foundDeveloper = developer.find((item) => item.userID === UserID);
+    useEffect(() => {
+      fetchData();
+    }, []);
+
+    const foundDeveloper = developer.find((item) => item.userID === DevID);
   console.log("Developer:"+foundDeveloper);
+
   return (
     <>
-    
-
       <div className="containerAboutMe">
        {foundDeveloper?(<form action="" method="POST">
           <div className="innerContainerAboutMe">
@@ -86,7 +87,7 @@ const Profile = () => {
         
       </div>
     </>
-  );
-};
+  )
+}
 
-export default Profile;
+export default ShowDev

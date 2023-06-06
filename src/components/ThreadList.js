@@ -4,6 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import { getThreads } from "../apis/threadApi";
 import { getCategories } from "../apis/categoryApi";
 import { AuthContext } from "../contexts/AuthContext";
+
 // import {useNavigate} from 'react-router-dom'
 
 const ThreadList = () => {

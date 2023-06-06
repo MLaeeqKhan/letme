@@ -18,6 +18,7 @@ import Profile from './components/Profile';
 import CreateProfile from './components/CreateProfile';
 import ThreadList from './components/ThreadList';
 import Thread from './components/Thread';
+import ShowDev from './components/ShowDev';
 
 function App() {
   return (
@@ -44,8 +45,9 @@ function App() {
       <Route exact path="/ThreadList" element={<ThreadList/>}/>
       <Route exact path="/ThreadList/:catID" element={<ThreadList/>}/>
       <Route exact path="/Thread/:threadID" element={<Thread/>}/>
-      
       <Route exact path="/Profile" element={<Profile/>}/>
+      <Route exact path="/Profile/:devID" element={<Profile/>}/>
+      <Route exact path='/ShowDev/:devID' element={<ShowDev/>}/>
       {/* <Route element={<ErrorPage />}/> */}
       
       </Routes>

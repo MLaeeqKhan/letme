@@ -146,7 +146,7 @@ navigator('/Profile');
                 value={developer.skills}
                 onChange={handleInputs}
               />
-              <button className="addSkillsButton">Add</button>
+              {/* <button className="addSkillsButton">Add</button> */}
               <label for="Languages">Languages:</label>
               <input
                 type="text"

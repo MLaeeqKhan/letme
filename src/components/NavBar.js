@@ -11,6 +11,7 @@ const NavBar = () => {
   const navigate = useNavigate();
   let [showNavBar, setNavBar] = useState("none");
   let [showServices, setServices] = useState("none");
+  const {UserID} = useContext(AuthContext);
 
   const handleNavBar = () => {
     if (showNavBar === "block") {
@@ -114,7 +115,7 @@ const NavBar = () => {
               </div>
               )}
               <li>
-                <Link to={token ? "/CreateProfile" : "/login"} onClick={handleNavBar}>
+                <Link to={token ? "/Profile" : "/login"} onClick={handleNavBar}>
                   {" "}
                   <FaUserCircle className="user-icon" />
                 </Link>
@@ -188,7 +189,7 @@ const NavBar = () => {
         <div className="social-media">
           <ul className="social-media-desktop">
             <li>
-              <Link to={token ? "/CreateProfile" : "/login"}>
+              <Link to={token ? "/Profile" : "/login"}>
                 {" "}
                 <FaUserCircle className="user-icon" />
               </Link>

@@ -556,6 +556,7 @@ i {
 }
 .DeveProfile:hover {
   transform: scale(1.1);
+  transition: 1s;
 }
 .DeveContent {
   padding: 10px;

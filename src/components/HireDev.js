@@ -1,48 +1,46 @@
-import React from 'react'
-import profileImg from '../images/profile.png'
+import React, { useEffect, useState } from "react";
+import profileImg from "../images/profile.png";
+import { getDeveloper } from "../apis/developerAPIs";
 
-import {Link} from 'react-router-dom'
+import { Link } from "react-router-dom";
 const HireDev = () => {
+  const [developer, setDeveloper] = useState([]);
+
+  const fetchData = async () => {
+    const resDeveloper = await getDeveloper();
+    setDeveloper(resDeveloper.data.developer);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
   return (
     <>
-    
-     <header className="header">
-      <h1>letMe Developers</h1>
-     </header>
-     <section className="deveSection">
-      <Link to="/Profile"><div className="DeveProfile">
-        <img className="image" style={{width: "4rem"}} src={profileImg} width={50} height={50} alt="profile img"></img>
-        <div className="DeveContent"><h4>M. Laeeq Khan</h4>
-        <small>NERN Stack Developer</small>
-        </div>
-      </div></Link>
-     <Link to="/Profile"> <div className="DeveProfile">
-        <img className="image" style={{width: "4rem"}} src={profileImg} width={50} height={50} alt="profile img"></img>
-        <div className="DeveContent"><h4>M. Sannan Abid</h4>
-        <small>React Developer</small>
-        </div>
-      </div></Link>
-     <Link to="/Profile"> <div className="DeveProfile">
-        <img className="image" style={{width: "4rem"}} src={profileImg} width={50} height={50} alt="profile img"></img>
-        <div className="DeveContent"><h4>Faisal Iqbal</h4>
-        <small>Software Engineer</small>
-        </div>
-      </div></Link>
-     <Link to="/Profile"> <div className="DeveProfile">
-        <img className="image" style={{width: "4rem"}} src={profileImg}width={50} height={50} alt="profile img"></img>
-        <div className="DeveContent"><h4>Amir Hamza</h4>
-        <small>Android And Electron.js Dev... </small>
-        </div>
-      </div></Link>
-    <Link to="/Profile"> <div className="DeveProfile">
-        <img className="image" style={{width: "4rem"}} src={profileImg} width={50} height={50} alt="profile img"></img>
-        <div className="DeveContent"><h4>Aaqib</h4>
-        <small>Front-End Developer</small>
-        </div>
-      </div></Link> 
-     </section>
+      <header className="header">
+        <h1>letMe Developers</h1>
+      </header>
+      <section className="deveSection">
+        {developer.map((items) => (
+          <Link to={`/ShowDev/${items._id}`}>
+            <div className="DeveProfile">
+              <img
+                className="image"
+                style={{ width: "4rem" }}
+                src={profileImg}
+                width={50}
+                height={50}
+                alt="profile img"
+              ></img>
+              <div className="DeveContent">
+                <h4>{items.name}</h4>
+                <small>{items.areaOfTech}</small>
+              </div>
+            </div>
+          </Link>
+        ))}
+      </section>
     </>
-  )
-}
+  );
+};
 
-export default HireDev
+export default HireDev;
