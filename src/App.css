@@ -588,13 +588,25 @@ i {
 }
 .innerContainerAboutMe .colAboutme2{
   padding-top: 8rem;
+  text-transform: uppercase;
 }
 .innerContainerAboutMe .colAboutme3{
+ 
   padding-top: 8rem;
 }
 .innerContainerAboutMe .colAboutme4{
   padding-top: 8rem;
 }
+.innerContainerAboutMe .colAboutme4 .outerShowDevContacts{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  
+}
+
 .innerContainerAboutMe .colAboutme1 img {
   border-radius: 200px 200px 0px 200px;
   width: 15rem;
@@ -623,8 +635,24 @@ i {
 .colAboutme input[type="radio"]:hover {
  cursor: pointer;
 }
+.colAboutme4 .showDevContacts{
+  display: flex;
+  background-color:#012b32;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px 20px 0px 20px;
+  height: 50px;
+  width: 100px;
+ 
+}
+.showDevContacts:hover{
+  background-color: #062356;
+  transform: scale(1.1);
+  transition: 0.5s;
+}
 .colAboutme label {
   padding-bottom: 10px;
+  /* border: 2px solid black; */
   color: white;
   font-size: small;
   font-weight: bold;

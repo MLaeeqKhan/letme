@@ -5,12 +5,14 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { AiOutlineSearch } from "react-icons/ai";
 import { FiChevronDown } from "react-icons/fi";
 import { AuthContext } from "../contexts/AuthContext";
+// import { search } from "../../backend/Router/auth";
 
 const NavBar = () => {
   const { token, logoutUser, setUserToken } = useContext(AuthContext);
   const navigate = useNavigate();
   let [showNavBar, setNavBar] = useState("none");
   let [showServices, setServices] = useState("none");
+  const [saerchContent,setSearchContent] = useState(); 
   const {UserID} = useContext(AuthContext);
 
   const handleNavBar = () => {
@@ -42,7 +44,9 @@ const NavBar = () => {
     logoutUser()
     navigate("/login");
   };
-
+const hanleFocuss=()=>{
+  navigate(`/search/${saerchContent}`);
+}
   return (
     <>
       <nav className="main-nav">
@@ -177,7 +181,7 @@ const NavBar = () => {
               <Link to="Signup">Signup</Link>
             </li>
             <li className="search">
-              <input type="text"></input>
+              <input type="text" value={saerchContent} onChange={e=>setSearchContent(e.target.value)} onFocus={hanleFocuss}></input>
               <Link to="/Search">
                 {" "}
                 <AiOutlineSearch className="search-icon" />

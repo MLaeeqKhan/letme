@@ -153,8 +153,27 @@ router.post("/reply", async (req, res) => {
 });
 
 // createProfile
-router.post("/createProfile",async (req, res) => {
+// Multer configuration
+const multer = require("multer");
+const path = require("path");
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "public/assets"); // Set the destination folder for uploaded files
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    const extension = path.extname(file.originalname);
+    cb(null, file.fieldname + "-" + uniqueSuffix + extension); // Set the file name for uploaded files
+  },
+});
+
+const upload = multer({ storage: storage });
+
+
+
+router.post("/createProfile", upload.single("profileImg"), async (req, res) => {
   console.log("createProfile");
+//return res.send("uploaded")
   const {
     name,
     areaOfTech,
@@ -172,7 +191,8 @@ router.post("/createProfile",async (req, res) => {
   } = req.body;
 
   try {
-    const developer=new CreateProfile({name,
+    const developer = new CreateProfile({
+      name,
       areaOfTech,
       experience,
       jobType,
@@ -184,21 +204,32 @@ router.post("/createProfile",async (req, res) => {
       facebook,
       twitter,
       instagram,
-      userID});
-      const succ=await developer.save();
-      if(succ)
-      {
-        res.status(200).json({message:"You Registered As a Developer Successfully!"})
-      }
-      else{
-        res.status(400).json({message:"You Not registered As a Developer Successfully!"})
-      }
+      userID,
+      profileImg: req.file.filename, // Save the filename of the uploaded image
+    });
+    const savedDeveloper = await developer.save();
+    if (savedDeveloper) {
+      res.status(200).json({ message: "You Registered As a Developer Successfully!" });
+    } else {
+      res.status(400).json({ message: "You Not registered As a Developer Successfully!" });
+    }
   } catch (error) {
     console.log(error);
-    
+    res.status(500).json({ message: "Internal Server Error" });
   }
 });
 
+// search
+router.get('/search', async (req, res) => {
+  try {
+    const thread = await Thread.find({
+      $text: { $search: req.query.q }
+    });
+    res.json(thread);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
 
 
 // about us page

@@ -1,7 +1,9 @@
 const mongoose = require("mongoose");
-// const { default: CreateProfile } = require('../../src/components/CreateProfile');
-
 const developerSchema = new mongoose.Schema({
+  profileImg: {
+    type: String,
+    required: true,
+  },
   name: {
     type: String,
     require: true,

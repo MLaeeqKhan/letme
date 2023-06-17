@@ -19,6 +19,7 @@ import CreateProfile from './components/CreateProfile';
 import ThreadList from './components/ThreadList';
 import Thread from './components/Thread';
 import ShowDev from './components/ShowDev';
+import Search from './components/Search'
 
 function App() {
   return (
@@ -48,6 +49,7 @@ function App() {
       <Route exact path="/Profile" element={<Profile/>}/>
       <Route exact path="/Profile/:devID" element={<Profile/>}/>
       <Route exact path='/ShowDev/:devID' element={<ShowDev/>}/>
+      <Route exact path='/Search/:sContent' element={<Search/>}/>
       {/* <Route element={<ErrorPage />}/> */}
       
       </Routes>

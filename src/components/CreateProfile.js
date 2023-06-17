@@ -1,15 +1,18 @@
 import React, { useContext } from "react";
-import prolfileImg from "../images/laeeq.jpeg";
+// import profileImg from "../images/laeeq.jpeg";
+//import profileImg from "../images/profile.png";
+
 import { useState } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 const CreateProfile = () => {
-  const navigator=useNavigate();
-  const{UserID}=useContext(AuthContext);
+  const navigator = useNavigate();
+  const { UserID } = useContext(AuthContext);
   const [developer, setDeveloper] = useState({
+    //profileImg: "",
     name: "",
-    areaOfTech:"",
+    areaOfTech: "",
     experience: "",
     jobType: "",
     skills: "",
@@ -20,8 +23,18 @@ const CreateProfile = () => {
     facebook: "",
     twitter: "",
     instagram: "",
-    userID:""
+    userID: "",
   });
+  const [profileImg, setProfileImg] = useState(null); // State to hold the profile image file
+  const handleProfileImg = (e) => {
+    setProfileImg(e.target.files[0]);
+  };
+  // const imageUpload = (e) => {
+  //   console.log(e.target.files);
+  //   setDeveloper({ ...developer, profileImg: e.target.files[0] });
+  // };
+
+  
   let name, value;
   const handleInputs = (e) => {
     name = e.target.name;
@@ -32,50 +45,72 @@ const CreateProfile = () => {
   const postDate = async (e) => {
     e.preventDefault();
 
-    const {
-      name,
-      areaOfTech,
-      experience,
-      jobType,
-      skills,
-      languages,
-      email,
-      gitHub,
-      linkedin,
-      facebook,
-      twitter,
-      instagram,
-    }
-     = developer;
+    const formData = new FormData();
+    formData.append("profileImg", profileImg);
+    formData.append("name", developer.name);
+    formData.append("areaOfTech", developer.areaOfTech);
+    formData.append("experience", developer.experience);
+    formData.append("jobType", developer.jobType);
+    formData.append("skills", developer.skills);
+    formData.append("languages", developer.languages);
+    formData.append("email", developer.email);
+    formData.append("gitHub", developer.gitHub);
+    formData.append("linkedin", developer.linkedin);
+    formData.append("facebook", developer.facebook);
+    formData.append("twitter", developer.twitter);
+    formData.append("instagram", developer.instagram);
+    formData.append("userID", UserID);
+
+    // const {
+    //   profileImg,
+    //   name,
+    //   areaOfTech,
+    //   experience,
+    //   jobType,
+    //   skills,
+    //   languages,
+    //   email,
+    //   gitHub,
+    //   linkedin,
+    //   facebook,
+    //   twitter,
+    //   instagram,
+    // } = developer;
+
+    // const formData = new FormData();
+    // formData.append("img", profileImg);
 
     const res = await fetch("/createProfile", {
       method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify({
-        name:name,
-        areaOfTech:areaOfTech,
-        experience:experience,
-        jobType:jobType,
-        skills:skills,
-        languages:languages,
-        email:email,
-        gitHub:gitHub,
-        linkedin:linkedin,
-        facebook:facebook,
-        twitter:twitter,
-        instagram:instagram,
-        userID:UserID
-      }),
+      // headers: {
+      //   // "Content-Type": "multipart/form-data",
+      //   //"Content-Type": `multipart/form-data; boundary=${formData._boundary}`,
+
+      // },
+      // body: JSON.stringify({
+      //   profileImg: profileImg,
+      //   name: name,
+      //   areaOfTech: areaOfTech,
+      //   experience: experience,
+      //   jobType: jobType,
+      //   skills: skills,
+      //   languages: languages,
+      //   email: email,
+      //   gitHub: gitHub,
+      //   linkedin: linkedin,
+      //   facebook: facebook,
+      //   twitter: twitter,
+      //   instagram: instagram,
+      //   userID: UserID,
+      // }),
+      body: formData,
     });
     const responce = await res.json();
-    if(res.status===200 || responce){
-window.alert("You Registered As a Developer Successfully!")
-navigator('/Profile');
-    }else{
-      window.alert("You Not Registered As a Developer Successfully!")
-
+    if (res.status === 200 || responce) {
+      window.alert("You Registered As a Developer Successfully!");
+      navigator("/Profile");
+    } else {
+      window.alert("You Not Registered As a Developer Successfully!");
     }
   };
   return (
@@ -84,7 +119,7 @@ navigator('/Profile');
         <form action="" method="POST">
           <div className="innerContainerAboutMe">
             <div className="colAboutme1 colAboutme">
-              <img src={prolfileImg} alt="profileImg" />
+            <input type="file" name="profileImg" onChange={handleProfileImg} />
             </div>
             <div className="colAboutme2 colAboutme">
               <label htmlFor="name">Name</label>
@@ -206,7 +241,12 @@ navigator('/Profile');
               />
             </div>
           </div>
-          <input type="submit" className="Create" value="Create" onClick={postDate}/>
+          <input
+            type="submit"
+            className="Create"
+            value="Create"
+            onClick={postDate}
+          />
         </form>
       </div>
     </>

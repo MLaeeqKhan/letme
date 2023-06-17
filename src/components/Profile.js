@@ -1,4 +1,6 @@
-import prolfileImg from "../images/laeeq.jpeg";
+// import prolfileImg from "../images/laeeq.jpeg";
+import prolfileImg from "../images/profile.png";
+
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
