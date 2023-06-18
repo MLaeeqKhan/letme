@@ -31,6 +31,12 @@ const Profile = () => {
   console.log("Developer:",foundDeveloper);
   console.log("Image Path:",process.env.REACT_APP_IMAGE_PATH);
   
+  const openPdf = (e) => {
+    e.preventDefault();
+    const pdfUrl = imgPath + foundDeveloper.cv;
+    window.open(pdfUrl, "_blank"); 
+  };
+
   return (
     <>
 
@@ -52,7 +58,12 @@ const Profile = () => {
               <div className="typeJobeContainer">
                 <label htmlFor="jobType">{foundDeveloper.jobType}</label>
               </div>
+              <div className="cvButton">
+                  <label htmlFor="cvButton"></label>
+                  <button onClick={openPdf}>CV / Resume</button>
+                </div>
             </div>
+            
             <div className="colAboutme3 colAboutme">
               <h2> Skills: </h2>
               <label for="Skills">{foundDeveloper.skills} </label>

@@ -171,7 +171,7 @@ const upload = multer({ storage: storage });
 
 
 
-router.post("/createProfile", upload.single("profileImg"), async (req, res) => {
+router.post("/createProfile", upload.fields([{ name: "profileImg" }, { name: "cv" }]), async (req, res) => {
   console.log("createProfile");
 //return res.send("uploaded")
   const {
@@ -191,6 +191,9 @@ router.post("/createProfile", upload.single("profileImg"), async (req, res) => {
   } = req.body;
 
   try {
+    const profileImgFilename = req.files["profileImg"][0].filename; // Get the filename of the uploaded profile image
+    const cvFilename = req.files["cv"][0].filename; // Get the filename of the uploaded CV
+
     const developer = new CreateProfile({
       name,
       areaOfTech,
@@ -205,7 +208,9 @@ router.post("/createProfile", upload.single("profileImg"), async (req, res) => {
       twitter,
       instagram,
       userID,
-      profileImg: req.file.filename, // Save the filename of the uploaded image
+      profileImg: profileImgFilename,
+      cv: cvFilename,
+      // Save the filename of the uploaded image
     });
     const savedDeveloper = await developer.save();
     if (savedDeveloper) {

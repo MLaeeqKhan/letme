@@ -21,6 +21,10 @@ const developerSchema = new mongoose.Schema({
     type: String,
     // require: true,
   },
+  cv: {
+    type: String,
+    required: true,
+  },
   
   skills: {
     type: [String],

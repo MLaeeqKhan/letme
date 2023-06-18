@@ -29,6 +29,11 @@ const ShowDev = () => {
 
   const foundDeveloper = developer.find((item) => item._id === DevID);
   // console.log("Developer:"+foundDeveloper);
+  const openPdf = (e) => {
+    e.preventDefault();
+    const pdfUrl = imgPath + foundDeveloper.cv;
+    window.open(pdfUrl, "_blank"); 
+  };
 
   return (
     <>
@@ -47,10 +52,15 @@ const ShowDev = () => {
 
                 <label htmlFor="areaOfTech">{foundDeveloper.areaOfTech}</label>
 
-                <label htmlFor="experience">{foundDeveloper.experience}</label>
-
                 <div className="typeJobeContainer">
-                  <label htmlFor="jobType">{foundDeveloper.jobType}</label>
+                <label htmlFor="jobType">{foundDeveloper.jobType}</label>
+              </div>
+
+                <label htmlFor="experience"> Experience: {foundDeveloper.experience}</label>
+
+                <div className="cvButtonout">
+                  <label htmlFor="cvButton"></label>
+                  <button className="cvButton" onClick={openPdf}> CV / Resume</button>
                 </div>
               </div>
               <div className="colAboutme3 colAboutme">

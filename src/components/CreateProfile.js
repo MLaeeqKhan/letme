@@ -25,9 +25,14 @@ const CreateProfile = () => {
     instagram: "",
     userID: "",
   });
-  const [profileImg, setProfileImg] = useState(null); // State to hold the profile image file
+  const [profileImg, setProfileImg] = useState(null);
+  const [cv, setCV] = useState(null); // State to hold the profile image file
   const handleProfileImg = (e) => {
     setProfileImg(e.target.files[0]);
+  };
+
+  const handleCV = (e) => {
+    setCV(e.target.files[0]);
   };
   // const imageUpload = (e) => {
   //   console.log(e.target.files);
@@ -51,6 +56,7 @@ const CreateProfile = () => {
     formData.append("areaOfTech", developer.areaOfTech);
     formData.append("experience", developer.experience);
     formData.append("jobType", developer.jobType);
+    formData.append("cv",cv)
     formData.append("skills", developer.skills);
     formData.append("languages", developer.languages);
     formData.append("email", developer.email);
@@ -119,7 +125,8 @@ const CreateProfile = () => {
         <form action="" method="POST">
           <div className="innerContainerAboutMe">
             <div className="colAboutme1 colAboutme">
-            <input type="file" name="profileImg" onChange={handleProfileImg} />
+              <label htmlFor="profileImg"> 
+            <input type="file" className="profileImg" id="profileImg" name="profileImg" onChange={handleProfileImg} /></label>
             </div>
             <div className="colAboutme2 colAboutme">
               <label htmlFor="name">Name</label>
@@ -169,7 +176,19 @@ const CreateProfile = () => {
                   value="On-Sight"
                 />
                 <label htmlFor="jobType">On-Sight</label>
-              </div>
+
+                
+             
+              </div >
+              <div className="cv">
+                <label for="cv">
+                <div className="selsectCV"> <input
+                type="file"
+                id="cv"
+                name="cv"
+                onChange={handleCV}
+                value={developer.cv}
+              /></div></label></div>
             </div>
             <div className="colAboutme3 colAboutme">
               <label for="Skills">
