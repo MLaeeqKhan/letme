@@ -4,6 +4,11 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import AuthProvider from "./contexts/AuthContext";
+// import 'react-toastify/dist/reactToastify.css';
+//require('dotenv').config();
+// const express = require("express");
+// const app = express();
+// app.use('/public',express.static('public'));
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

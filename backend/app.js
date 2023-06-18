@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const dotenv = require("dotenv");
-const cors = require("cors");
+// const cors = require("cors");
 
 dotenv.config({ path: "./config.env" });
 const PORT = process.env.PORT;
@@ -17,7 +17,7 @@ app.use(express.json());
 // app.use(cors()); // ye use kerna lazmy hy is ky begair server kisy ko b request bhejny nahi deta
 
 // app.use(require('./Router/auth'));
-
+app.use('/public',express.static('public'));
 app.use("/", authRouter); // ye use ker ziada better hy
 app.use("/", categoryRouter); // ye use ker ziada better hy
 

@@ -5,7 +5,7 @@ import { getDeveloper } from "../apis/developerAPIs";
 import { Link } from "react-router-dom";
 const HireDev = () => {
   const [developer, setDeveloper] = useState([]);
-
+  const [imgPath,setImagPath] = useState('http://localhost:5000/public/assets/');
   const fetchData = async () => {
     const resDeveloper = await getDeveloper();
     setDeveloper(resDeveloper.data.developer);
@@ -26,7 +26,7 @@ const HireDev = () => {
               <img
                 className="image"
                 style={{ width: "4rem" }}
-                src={profileImg}
+                src={imgPath + items.profileImg}
                 width={50}
                 height={50}
                 alt="profile img"

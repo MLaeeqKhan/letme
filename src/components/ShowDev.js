@@ -1,6 +1,5 @@
 import React from "react";
-// import prolfileImg from "../images/laeeq.jpeg";
-import prolfileImg from "../images/profile.png";
+import defaultProfileImg from "../images/profile.png";
 
 import { Link, useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -14,6 +13,9 @@ const ShowDev = () => {
   const navigator = useNavigate();
   // const {UserID} = useContext(AuthContext);
   // const [flag,setFlag] = useState(false);
+  const [imgPath, setImagPath] = useState(
+    "http://localhost:5000/public/assets/"
+  );
   const [developer, setDeveloper] = useState([]);
   const fetchData = async () => {
     const isExist = await getDeveloper();
@@ -35,7 +37,10 @@ const ShowDev = () => {
           <form action="" method="POST">
             <div className="innerContainerAboutMe">
               <div className="colAboutme1 colAboutme">
-                <img src={prolfileImg} alt="profileImg" />
+                <img
+                  src={imgPath + foundDeveloper.profileImg}
+                  alt="ProfileImg"
+                />
               </div>
               <div className="colAboutme2 colAboutme">
                 <label htmlFor="name">{foundDeveloper.name}</label>
@@ -58,59 +63,59 @@ const ShowDev = () => {
               <div className="colAboutme4 colAboutme">
                 <h2>WorkLinks</h2>
                 <div className="outerShowDevContacts">
-                <div className="showDevContacts">
-                  <Link to={`mailto:${foundDeveloper.email}`}>
-                    <label for="Email" className="showDevLabel">
-                      Email
-                    </label>
-                  </Link>
-                </div>
+                  <div className="showDevContacts">
+                    <Link to={`mailto:${foundDeveloper.email}`}>
+                      <label for="Email" className="showDevLabel">
+                        Email
+                      </label>
+                    </Link>
+                  </div>
 
-                <div className="showDevContacts">
-                  <Link to={foundDeveloper.gitHub}>
-                    <label htmlFor="Github" className="showDevLabel">
-                      Github
-                    </label>
-                  </Link>
-                </div>
+                  <div className="showDevContacts">
+                    <Link to={foundDeveloper.gitHub}>
+                      <label htmlFor="Github" className="showDevLabel">
+                        Github
+                      </label>
+                    </Link>
+                  </div>
 
-                <div className="showDevContacts">
-                  {" "}
-                  <Link to={foundDeveloper.linkedin}>
+                  <div className="showDevContacts">
                     {" "}
-                    <label for=" Linkedin" className="showDevLabel">
+                    <Link to={foundDeveloper.linkedin}>
                       {" "}
-                      Linkedin
-                    </label>
-                  </Link>
-                </div>
+                      <label for=" Linkedin" className="showDevLabel">
+                        {" "}
+                        Linkedin
+                      </label>
+                    </Link>
+                  </div>
 
-                <div className="showDevContacts">
-                  <Link to={foundDeveloper.facebook}>
+                  <div className="showDevContacts">
+                    <Link to={foundDeveloper.facebook}>
+                      {" "}
+                      <label for=" Facebook" className="showDevLabel">
+                        Facebook{" "}
+                      </label>
+                    </Link>
+                  </div>
+
+                  <div className="showDevContacts">
+                    <Link to={foundDeveloper.twitter}>
+                      {" "}
+                      <label for="Twitter" className="showDevLabel">
+                        Twitter
+                      </label>
+                    </Link>
+                  </div>
+
+                  <div className="showDevContacts">
                     {" "}
-                    <label for=" Facebook" className="showDevLabel">
-                      Facebook{" "}
-                    </label>
-                  </Link>
-                </div>
-
-                <div className="showDevContacts">
-                  <Link to={foundDeveloper.twitter}>
-                    {" "}
-                    <label for="Twitter" className="showDevLabel">
-                      Twitter
-                    </label>
-                  </Link>
-                </div>
-
-                <div className="showDevContacts">
-                  {" "}
-                  <Link to={foundDeveloper.instagram}>
-                    <label for="Instagram" className="showDevLabel">
-                      Instagram
-                    </label>
-                  </Link>
-                </div>
+                    <Link to={foundDeveloper.instagram}>
+                      <label for="Instagram" className="showDevLabel">
+                        Instagram
+                      </label>
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>
