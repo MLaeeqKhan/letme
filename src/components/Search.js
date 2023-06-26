@@ -1,31 +1,44 @@
-import React, { useState, useEffect } from 'react';
-import {useParams} from 'react-router-dom'
-import axios from 'axios';
+//Search.js
+import React, { useState } from 'react';
+import { searchThreads } from '../apis/searchTheardsApis';
+import { useParams } from 'react-router-dom';
 
 const Search = () => {
-  const [query, setQuery] = useState('');
-  const [results, setResults] = useState([]);
-  const params =useParams();
-  const searchContent= params.sContent;
-  console.log('Search Content:'+searchContent);
- 
-  useEffect(() => {
-    const search = async () => {
-      const res = await axios.get(`/search?q=${query}`);
-      setResults(res.data);
-    };
-
-    search();
-  }, [query]);
+  const [searchText, setSearchText] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+const params =useParams();
+const sText= params.sContent;
+console.log("sText",sText);
+  const handleSearch = async () => {
+    try {
+      const response = await searchThreads(searchText);
+      setSearchResults(response);
+    } catch (error) {
+      console.error(error);
+      // Handle error
+    }
+  };
 
   return (
-    <div>
-       <center><h2>Search Page</h2></center> 
-      <input type="hidden"  name='hide' value={searchContent} onChange={e => setQuery(e.target.value)} />
-      {results.map(result => (
-        <div key={result._id}>{result.content}</div>
-      ))}
-    </div>
+    <>
+      <input
+        type="text"
+        value={searchText}
+        onChange={(e) => setSearchText(e.target.value)}
+      />
+      <button onClick={handleSearch}>Search</button>
+
+      {searchResults.length > 0 ? (
+        searchResults.map((thread) => (
+          <div key={thread._id}>
+            <h3>Title: {thread.threadTile}</h3>
+            <p><h1>Description</h1>: {thread.threadDesc}</p>
+          </div>
+        ))
+      ) : (
+        <p>No search results found</p>
+      )}
+    </>
   );
 };
 

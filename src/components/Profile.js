@@ -53,14 +53,14 @@ const Profile = () => {
 
               <label htmlFor="areaOfTech">{foundDeveloper.areaOfTech}</label>
 
-              <label htmlFor="experience">{foundDeveloper.experience}</label>
+              <label htmlFor="experience">Experience: {foundDeveloper.experience}</label>
 
               <div className="typeJobeContainer">
                 <label htmlFor="jobType">{foundDeveloper.jobType}</label>
               </div>
-              <div className="cvButton">
+              <div className="cvButtonOuter">
                   <label htmlFor="cvButton"></label>
-                  <button onClick={openPdf}>CV / Resume</button>
+                  <button className="cvButton" onClick={openPdf}>CV / Resume</button>
                 </div>
             </div>
             

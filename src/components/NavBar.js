@@ -181,10 +181,10 @@ const hanleFocuss=()=>{
               <Link to="Signup">Signup</Link>
             </li>
             <li className="search">
-              <input type="text" value={saerchContent} onChange={e=>setSearchContent(e.target.value)} onFocus={hanleFocuss}></input>
+              <input type="text" value={saerchContent} onChange={e=>setSearchContent(e.target.value)} ></input>
               <Link to="/Search">
                 {" "}
-                <AiOutlineSearch className="search-icon" />
+                <AiOutlineSearch className="search-icon" onClick={hanleFocuss}/>
               </Link>
             </li>
           </ul>

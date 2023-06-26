@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
-import profileImg from "../images/profile.png";
 import { getDeveloper } from "../apis/developerAPIs";
-
 import { Link } from "react-router-dom";
+
 const HireDev = () => {
   const [developer, setDeveloper] = useState([]);
-  const [imgPath,setImagPath] = useState('http://localhost:5000/public/assets/');
+  const [filteredDeveloper, setFilteredDeveloper] = useState([]);
+  const [imgPath, setImagPath] = useState('http://localhost:5000/public/assets/');
+  const [filterText, setFilterText] = useState('');
+
   const fetchData = async () => {
     const resDeveloper = await getDeveloper();
     setDeveloper(resDeveloper.data.developer);
@@ -14,14 +16,28 @@ const HireDev = () => {
   useEffect(() => {
     fetchData();
   }, []);
+
+  useEffect(() => {
+    // Filter the developer list based on the filterText
+    const filtered = developer.filter(item => item.areaOfTech.toLowerCase().includes(filterText.toLowerCase()));
+    setFilteredDeveloper(filtered);
+  }, [developer, filterText]);
+
+  const handleFilterChange = (event) => {
+    setFilterText(event.target.value);
+  };
+
   return (
     <>
       <header className="header">
         <h1>letMe Developers</h1>
       </header>
       <section className="deveSection">
-        {developer.map((items) => (
-          <Link to={`/ShowDev/${items._id}`}>
+        <div className="filter">
+          <input type="text" value={filterText} onChange={handleFilterChange} placeholder="Filter" />
+        </div>
+        {filteredDeveloper.map((items) => (
+          <Link to={`/ShowDev/${items._id}`} key={items._id}>
             <div className="DeveProfile">
               <img
                 className="image"

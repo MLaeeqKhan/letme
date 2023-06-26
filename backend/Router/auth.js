@@ -224,17 +224,24 @@ router.post("/createProfile", upload.fields([{ name: "profileImg" }, { name: "cv
   }
 });
 
-// search
-router.get('/search', async (req, res) => {
-  try {
-    const thread = await Thread.find({
-      $text: { $search: req.query.q }
-    });
-    res.json(thread);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
+// Search endpoint
+// router.get('/search', async (req, res) => {
+//   const searchText = req.query.text;
+// console.log("search:"+searchText);
+//   try {
+//     const threads = await Thread.find({
+//       $or: [
+//         { threadTile: { $regex: searchText, $options: 'i' } },
+//         { threadDesc: { $regex: searchText, $options: 'i' } }
+//       ]
+//     });
+
+//     res.json(threads);
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ message: 'Internal server error' });
+//   }
+// });
 
 
 // about us page

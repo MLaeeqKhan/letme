@@ -49,6 +49,7 @@ function App() {
       <Route exact path="/Profile" element={<Profile/>}/>
       <Route exact path="/Profile/:devID" element={<Profile/>}/>
       <Route exact path='/ShowDev/:devID' element={<ShowDev/>}/>
+      <Route exact path='/Search' element={<Search/>}/>
       <Route exact path='/Search/:sContent' element={<Search/>}/>
       {/* <Route element={<ErrorPage />}/> */}
       
