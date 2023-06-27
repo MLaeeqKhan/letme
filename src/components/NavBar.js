@@ -30,6 +30,8 @@ const NavBar = () => {
       console.log("data", data);
       setUserToken(data)
     }
+
+
   }, [])
   const hanldeDropDownManue = () => {
     if (showServices === "none") {
@@ -44,15 +46,19 @@ const NavBar = () => {
     logoutUser()
     navigate("/login");
   };
-const hanleFocuss=()=>{
-  navigate(`/search/${saerchContent}`);
-}
+  
+    const hanleFocuss=()=>{
+      navigate(`/search/${saerchContent}`);
+    }
+  
+
   return (
     <>
       <nav className="main-nav">
         <div className="logo">
-
-          <Link to="/"><h2>letMe</h2></Link>
+         
+       
+          <Link to="/"><h2 >letMe</h2></Link>
         </div>
 
         <div className="outer-mobile">
@@ -182,7 +188,7 @@ const hanleFocuss=()=>{
             </li>
             <li className="search">
               <input type="text" value={saerchContent} onChange={e=>setSearchContent(e.target.value)} ></input>
-              <Link to="/Search">
+              <Link to={`/search/${saerchContent}`}>
                 {" "}
                 <AiOutlineSearch className="search-icon" onClick={hanleFocuss}/>
               </Link>

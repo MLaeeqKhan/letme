@@ -4,6 +4,10 @@ import {useNavigate} from 'react-router-dom'
 
 const Signup = () => {
   const navigator=useNavigate();
+  const [credPrompt,setCredPrompt ]=useState('none');
+  const [userPrompt,setUserPrompt ]=useState('none');
+  const [passPrompt,setPassPrompt ]=useState('none');
+ 
   const [user, setUser]=useState({email:"",pass:"",cPass:""}); 
   let name, value;
   const handleInputs=(e)=>{
@@ -28,14 +32,21 @@ const Signup = () => {
    const data = await res.json();
    console.log(data);
    if(res.status===422 || !data){
-    window.alert("Invalid Registration");
-    console.log("Invalid Registration");
+    setCredPrompt('block');
+    // window.alert("Invalid Registration");
+    // console.log("Invalid Registration");
 
+   }
+   else if(res.status===409 || !data) {
+    setUserPrompt('block');
+   }
+   else if(res.status===401 || !data) {
+    setPassPrompt('block');
    }
    else{
     window.alert("Valid... Registration");
     console.log("Valid Registration");
-    console.log("Email in Else:"+email);
+    // console.log("Email in Else:"+email);
     // console.log("data:"+data);
     navigator("/Login");
    }
@@ -44,22 +55,20 @@ const Signup = () => {
   return (
     <>  
        <form action="" method="POST">
-    {/* <small style='color:red;'>Please signup !*</small>"; */}
-       
+  
         <h2>Signup To letMe</h2>
+        <small style={{color:"red",display:credPrompt}}>Please fill the credential !*</small>
         <div className="inputBox">
-            <input type="text" name="email" onChange={handleInputs} value={user.email} required/>
-            <span>Email Address</span> 
-        </div>
        
-         
-         {/* <small style="color:red;">Email already in use!*</small>'; */}
-      
-      
+            <input type="text" name="email" onChange={handleInputs} value={user.email} required/>
+            <span>Email Address</span>
+            <small className="Exist-or-invalid" style={{color:"red",display:userPrompt}}>Email already in use!*</small> 
+        </div>
 
         <div className="inputBox">
             <input type="password" name="pass" onChange={handleInputs} value={user.pass} required/>
             <span>Password</span>
+            <small  style={{color:"red",display:passPrompt}}>Password do not match!*</small>
         </div>
 
         <div className="inputBox">

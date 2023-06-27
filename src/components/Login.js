@@ -3,6 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
 const Login = () => {
   const navigator = useNavigate();
+  const [credPrompt,setCredPrompt ]=useState('none');
+  
+  const [loginPrompt,setloginPrompt ]=useState('none');
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
   const {token, setUserToken} = useContext(AuthContext)
@@ -21,8 +24,12 @@ const Login = () => {
     const data = await res.json();
     console.log(data);
 
-    if (res.status === 400 || !data) {
-      window.alert("Invalid Credential");
+    if (res.status === 404 || !data) {
+      // window.alert("Invalid Credential");
+      setloginPrompt('block');
+    }
+    else if(res.status === 422 || !data){
+      setCredPrompt('block');
     } else {
       setUserToken(data)
       
@@ -35,6 +42,7 @@ const Login = () => {
     <>
       <form action="" method="POST">
         <h2>Login To letMe</h2>
+        <small style={{color:"red",display:credPrompt}}>Please fill the credential!*</small>
         <div className="inputBox">
           <input
             type="text"
@@ -46,7 +54,7 @@ const Login = () => {
           <span>Email Address</span>
         </div>
 
-        {/* <small style='color:red;'>Email or Password incorrect!*</small> */}
+        <small style={{color:"red",display:loginPrompt}}>Email or Password incorrect!*</small>
 
         <div className="inputBox">
           <input

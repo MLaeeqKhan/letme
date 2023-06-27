@@ -23,9 +23,9 @@ router.post("/signup", async (req, res) => {
   try {
     const userExist = await User.findOne({ email: email });
     if (userExist) {
-      return res.status(422).json({ error: "User already exist:" });
+      return res.status(409).json({ error: "User already exist:" });
     } else if (pass !== cPass) {
-      return res.status(422).json({ error: "Passwords are not match:" });
+      return res.status(401).json({ error: "Passwords are not match:" });
     } else {
       const user = new User({ email, pass, cPass });
       await user.save();
@@ -43,11 +43,11 @@ router.post("/signin", async (req, res) => {
     // const token;
     const { email, pass } = req.body;
     if (!email || !pass) {
-      return res.status(400).json({ error: "Please fill the credential:" });
+      return res.status(422).json({ error: "Please fill the credential:" });
     }
     const userExist = await User.findOne({ email: email });
     if (!userExist) {
-      res.status(400).json({ error: "Invalid credientials:" });
+      return res.status(404).json({ error: "Invalid credientials:" });
     } else {
       const isMatch = await bcrypt.compare(pass, userExist.pass);
       const token = await userExist.generateAuthToken();
@@ -65,7 +65,7 @@ router.post("/signin", async (req, res) => {
           user: userExist,
         });
       } else {
-        res.status(400).json({ error: "Invalid Credientials:" });
+        res.status(404).json({ error: "Invalid Credientials:" });
       }
     }
   } catch (error) {

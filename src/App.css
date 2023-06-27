@@ -32,7 +32,10 @@ html{
   
 }
 
-
+/* signup */
+.Exist-or-invalid{
+  /* display: none; */
+}
 /* Navbar */
 .main-nav {
   width: 100;
@@ -73,6 +76,7 @@ li a:hover {
 .search input {
   width: 150px;
   height: 34px;
+  padding: 10px;
   border-radius: 10px;
   background-color: white;
 }

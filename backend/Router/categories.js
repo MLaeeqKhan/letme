@@ -45,25 +45,76 @@ try {
   console.log("Error:",error);
 }
 
-// Search endpoint
+// // Search endpoint
+
+const levenshteinDistance = (a, b) => {
+  const distanceMatrix = Array(b.length + 1).fill(null).map(() => Array(a.length + 1).fill(null));
+
+  for (let i = 0; i <= a.length; i++) {
+    distanceMatrix[0][i] = i;
+  }
+
+  for (let j = 0; j <= b.length; j++) {
+    distanceMatrix[j][0] = j;
+  }
+
+  for (let j = 1; j <= b.length; j++) {
+    for (let i = 1; i <= a.length; i++) {
+      const indicator = a[i - 1] === b[j - 1] ? 0 : 1;
+      distanceMatrix[j][i] = Math.min(
+        distanceMatrix[j][i - 1] + 1,
+        distanceMatrix[j - 1][i] + 1,
+        distanceMatrix[j - 1][i - 1] + indicator
+      );
+    }
+  }
+
+  return distanceMatrix[b.length][a.length];
+};
+
 router.get('/search', async (req, res) => {
   const searchText = req.query.text; // Get the search text from the query parameter
 
   try {
-    // Perform the text search using $or operator on threadTitle and threadDesc fields
-    const thread = await threads.find({
-      $or: [
-        { threadTile: { $regex: searchText, $options: 'i' } },
-        { threadDesc: { $regex: searchText, $options: 'i' } }
-      ]
+    const allThreads = await threads.find(); // Retrieve all threads from the database
+
+    // Filter the threads based on the search text using Levenshtein distance
+    const filteredThreads = allThreads.filter((thread) => {
+      const titleDistance = levenshteinDistance(searchText.toLowerCase(), thread.threadTile.toLowerCase());
+      const descDistance = levenshteinDistance(searchText.toLowerCase(), thread.threadDesc.toLowerCase());
+
+      const titleSimilarity = 1 - (titleDistance / Math.max(searchText.length, thread.threadTile.length));
+      const descSimilarity = 1 - (descDistance / Math.max(searchText.length, thread.threadDesc.length));
+
+      return titleSimilarity >= 0.5 || descSimilarity >= 0.5;
     });
 
-    res.json(thread);
+    res.json(filteredThreads);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });
   }
 });
+
+
+// router.get('/search', async (req, res) => {
+//   const searchText = req.query.text; // Get the search text from the query parameter
+
+//   try {
+//     // Perform the text search using $or operator on threadTitle and threadDesc fields
+//     const thread = await threads.find({
+//       $or: [
+//         { threadTile: { $regex: searchText, $options: 'i' } },
+//         { threadDesc: { $regex: searchText, $options: 'i' } }
+//       ]
+//     });
+
+//     res.json(thread);
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ message: 'Internal server error' });
+//   }
+// });
 
 // // Get all threads
 // router.get('/getThreads', async (req, res) => {
