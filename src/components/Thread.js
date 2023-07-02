@@ -1,17 +1,18 @@
-import React, { useState, useEffect,useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { FaCheck, FaRegCheckSquare } from "react-icons/fa";
 import profileImg from "../images/profile.png";
 import { useParams } from "react-router-dom";
 import { getThreads } from "../apis/threadApi";
-import { AuthContext } from '../contexts/AuthContext';
+import { AuthContext } from "../contexts/AuthContext";
 import { getReplies } from "../apis/replyApis";
-
+import {updateReply} from "../apis/replyUpdateStatusApis";
 
 const Thread = () => {
   const params = useParams();
   const threadID = params.threadID;
   const { UserID } = useContext(AuthContext);
-  const {userEmail} = useContext(AuthContext);
-    console.log("userID:",UserID);
+  const { userEmail } = useContext(AuthContext);
+  console.log("userID:", UserID);
   const [threads, setThreads] = useState([]);
   const [replies, setreplies] = useState([]);
   useEffect(() => {
@@ -19,10 +20,10 @@ const Thread = () => {
   }, []);
   const fetchData = async () => {
     const resThreads = await getThreads();
-    const resReplies=await getReplies();
+    const resReplies = await getReplies();
     // console.log(resThreads);
     setThreads(resThreads.data.thread);
-    setreplies(resReplies.data.reply)
+    setreplies(resReplies.data.reply);
   };
   const [reply, setReply] = useState({ replyContent: "" });
   let name, value;
@@ -42,7 +43,13 @@ const Thread = () => {
         "content-type": "application/json",
       },
 
-      body: JSON.stringify({ replyContent: replyContent, threadID: threadID, userID:UserID,userEmail:userEmail }),
+      body: JSON.stringify({
+        replyContent: replyContent,
+        status:0,
+        threadID: threadID,
+        userID: UserID,
+        userEmail: userEmail,
+      }),
     });
     const response = await res.json();
     if (res.status === 200 || response) {
@@ -56,10 +63,19 @@ const Thread = () => {
 
   const resetFormFields = () => {
     setReply({
-      replyContent: ""
+      replyContent: "",
     });
   };
 
+  
+    const handleUpdateStatus = async (id) => {
+      try {
+        await updateReply(id, '1');
+        // Handle success
+      } catch (error) {
+        // Handle error
+      }
+    };
   return (
     <>
       {threads.map((item) =>
@@ -99,7 +115,7 @@ const Thread = () => {
           ></textarea>
         </div>
 
-        {/* <input  type="hidden" name="user_id" value="'.$_SESSION["userid"].'"/> */}
+       
 
         <div className="input">
           {" "}
@@ -130,27 +146,37 @@ const Thread = () => {
       </center>
 
       <div className="parent">
-      {replies.map((item)=>(item.threadID===threadID)? ( <div className="media">
-          <div className="imge">
-            <img style={{ width: "4rem" }} src={profileImg} alt="profile img" />
-          </div>
-          <div className="name">
-            <p>{item.userEmail}</p>{" "}
-          </div>
-          <div className="cont">
-            <div>
-              <pre>
-                {item.replyContent}
-              </pre>
+        {replies.map((item) =>
+          item.threadID === threadID ? (
+            <div className="media">
+              <div className="imge">
+                <img
+                  style={{ width: "4rem" }}
+                  src={profileImg}
+                  alt="profile img"
+                />
+              </div>
+              <div className="check">
+                <FaRegCheckSquare className="FaRegCheckSquare" onClick={()=>handleUpdateStatus(item._id)} />
+                {/* <FaCheck className="FaRegCheckSquare" /> */}
+              </div>
+              <div className="name">
+                <p>{item.userEmail}</p>{" "}
+              </div>
+              <div className="cont">
+                <div>
+                  <pre>{item.replyContent}</pre>
+                </div>
+                <p>
+                  <hr />
+                </p>
+                <div className="dateTime">
+                  <p>{item.date}</p>
+                </div>
+              </div>
             </div>
-            <p>
-              <hr />
-            </p>
-            <div className="dateTime">
-              <p>{item.date}</p>
-            </div>
-          </div>
-        </div>):null)}
+          ) : null
+        )}
       </div>
       <style>{`
      html{
@@ -180,6 +206,14 @@ const Thread = () => {
         box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
         border: 1px solid rgba(255, 255, 255, 0.3);
 
+    }
+    .check {
+      margin-left: auto;
+    }
+    .FaRegCheckSquare{
+      width: 50px;
+      height: 50px;
+      color:green;
     }
     .parent{
         display: flex;

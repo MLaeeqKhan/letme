@@ -83,23 +83,24 @@ const NavBar = () => {
                 <Link onClick={hanldeDropDownManue}>
                   Services <FiChevronDown className="dropDown-icon" />{" "}
                 </Link>
-                <div>
+                {/* to={token ? "/Profile" : "/login"} */}
+             <div>
                   <div
                     className="dropDown-manu"
                     style={{ display: showServices }}
                   >
                     <li>
-                      <Link to="/HireDev" onClick={hanldeDropDownManue}>
+                      <Link to={token?"/HireDev":"/login"} onClick={hanldeDropDownManue}>
                         HireDevelopers
                       </Link>
                     </li>
                     <li>
-                      <Link to="/YourQ" onClick={hanldeDropDownManue}>
+                      <Link to={token?"/YourQ":"/login"} onClick={hanldeDropDownManue}>
                         YourQ
                       </Link>
                     </li>
                     <li>
-                      <Link to="/FileConv" onClick={hanldeDropDownManue}>
+                      <Link to={token?"/FileConv":"/login"} onClick={hanldeDropDownManue}>
                         FileConvertor
                       </Link>
                     </li>
@@ -154,17 +155,17 @@ const NavBar = () => {
                   style={{ display: showServices }}
                 >
                   <li>
-                    <Link to="/HireDev" onClick={hanldeDropDownManue}>
+                    <Link to={token?"/HireDev":"/login"} onClick={hanldeDropDownManue}>
                       HireDevelopers
                     </Link>
                   </li>
                   <li>
-                    <Link to="/YourQ" onClick={hanldeDropDownManue}>
+                    <Link to={token?"/YourQ":"/login"} onClick={hanldeDropDownManue}>
                       YourQ
                     </Link>
                   </li>
                   <li>
-                    <Link to="/FileConv" onClick={hanldeDropDownManue}>
+                    <Link to={token?"/FileConv":"/login"} onClick={hanldeDropDownManue}>
                       FileConvertor
                     </Link>
                   </li>

@@ -5,6 +5,10 @@ const repliesSchema= new mongoose.Schema({
         type:String,
         require:true
     },
+    status:{
+        type:String,
+        require:true
+    },
     date:{
         type:Date, default:Date.now
     },

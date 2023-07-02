@@ -1,3 +1,4 @@
+//threadSchema file
 const mongoose = require('mongoose');
 
 const threadsSchema= new mongoose.Schema({

@@ -13,7 +13,7 @@ const Search = () => {
   console.log("sText", sText);
 
   useEffect(() => {
-    setSearchText(sText);
+    // setSearchText(sText);
 
     const handleSearch = async () => {
       setIsLoading(true);

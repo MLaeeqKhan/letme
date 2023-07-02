@@ -19,7 +19,8 @@ import CreateProfile from './components/CreateProfile';
 import ThreadList from './components/ThreadList';
 import Thread from './components/Thread';
 import ShowDev from './components/ShowDev';
-import Search from './components/Search'
+import Search from './components/Search';
+import ThreadUpdateForm from './components/ThreadUpdateForm';
 
 function App() {
   return (
@@ -51,6 +52,9 @@ function App() {
       <Route exact path='/ShowDev/:devID' element={<ShowDev/>}/>
       {/* <Route exact path='/Search' element={<Search/>}/> */}
       <Route exact path='/Search/:sContent' element={<Search/>}/>
+      <Route exact path='/Search/:sContent' element={<Search/>}/>
+      <Route exact path='/ThreadUpdateForm/:id' element={<ThreadUpdateForm/>}/>
+     
       {/* <Route element={<ErrorPage />}/> */}
       
       </Routes>

@@ -87,7 +87,18 @@ const ThreadList = () => {
       threadDesc: "",
     });
   };
-
+  const formatDate = (dateString) => {
+    const options = {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric',
+      
+    };
+    return new Date(dateString).toLocaleString('en-US', options);
+  };
   return (
     <>
       <div className="jumbotron">
@@ -207,7 +218,7 @@ const ThreadList = () => {
                   <hr />
                 </p>
                 <div className="dateTime media-row">
-                  <p style={{ paddingLeft: "2rem" }}>{item.date}</p>
+                  <p style={{ paddingLeft: "2rem" }}>{formatDate(item.date)}</p>
                 </div>
               </div>
             </div>

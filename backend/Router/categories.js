@@ -1,3 +1,4 @@
+// controller files
 const express = require("express");
 const categories = require("../Models/categoriesSchema");
 const threads=require('../Models/threadsSchema')
@@ -127,5 +128,47 @@ router.get('/search', async (req, res) => {
 //   }
 // });
 
+router.put("/updateThread/:id", async (req, res) => {
+  const { id } = req.params;
+  const { threadTitle, threadDesc } = req.body;
+  try {
+    let updateFields = {};
+    if (threadTitle) {
+      updateFields.threadTile = threadTitle;
+    }
+    if (threadDesc) {
+      updateFields.threadDesc = threadDesc;
+    }
+    const updatedThread = await threads.findByIdAndUpdate(id, updateFields, { new: true });
+    res.json({ thread: updatedThread });
+  } catch (error) {
+    console.log("error", error);
+    res.send(error);
+  }
+});
 
+// Delete a thread by ID
+router.delete("/deleteThread/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    await threads.deleteOne({ _id: id });
+    res.sendStatus(204); // No Content
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// update reply status
+router.put("/updateReply/:id", async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+  try {
+    const updatedReply = await replies.findByIdAndUpdate(id, { status }, { new: true });
+    res.json({ reply: updatedReply });
+  } catch (error) {
+    console.log("error", error);
+    res.send(error);
+  }
+});
 module.exports = router;
