@@ -146,38 +146,47 @@ const Thread = () => {
       </center>
 
       <div className="parent">
-        {replies.map((item) =>
-          item.threadID === threadID ? (
-            <div className="media">
-              <div className="imge">
-                <img
-                  style={{ width: "4rem" }}
-                  src={profileImg}
-                  alt="profile img"
-                />
-              </div>
-              <div className="check">
-                <FaRegCheckSquare className="FaRegCheckSquare" onClick={()=>handleUpdateStatus(item._id)} />
-                {/* <FaCheck className="FaRegCheckSquare" /> */}
-              </div>
-              <div className="name">
-                <p>{item.userEmail}</p>{" "}
-              </div>
-              <div className="cont">
-                <div>
-                  <pre>{item.replyContent}</pre>
-                </div>
-                <p>
-                  <hr />
-                </p>
-                <div className="dateTime">
-                  <p>{item.date}</p>
-                </div>
-              </div>
-            </div>
-          ) : null
-        )}
+  {replies
+    .filter((item) => item.threadID === threadID)
+    .sort((a, b) => (a.status === '1' ? -1 : 1))
+    .map((item) => (
+      <div className="media" key={item._id}>
+        <div className="imge">
+          <img
+            style={{ width: "4rem" }}
+            src={profileImg}
+            alt="profile img"
+          />
+        </div>
+        <div className="check">
+
+         {item.userID===UserID? (item.status === "0" ? (
+            <FaRegCheckSquare
+              className="FaRegCheckSquare"
+              onClick={() => handleUpdateStatus(item._id)}
+            />
+          ) : (
+            <FaCheck className="FaRegCheckSquare" />
+          )):(null)}
+        </div>
+        <div className="name">
+          <p>{item.userEmail}</p>
+        </div>
+        <div className="cont">
+          <div>
+            <pre>{item.replyContent}</pre>
+          </div>
+          <p>
+            <hr />
+          </p>
+          <div className="dateTime">
+            <p>{item.date}</p>
+          </div>
+        </div>
       </div>
+    ))}
+</div>
+
       <style>{`
      html{
         font-size: 100%;
