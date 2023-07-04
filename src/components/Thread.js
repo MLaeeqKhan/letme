@@ -10,11 +10,12 @@ import {updateReply} from "../apis/replyUpdateStatusApis";
 const Thread = () => {
   const params = useParams();
   const threadID = params.threadID;
-  const { UserID } = useContext(AuthContext);
+  const { token,UserID } = useContext(AuthContext);
   const { userEmail } = useContext(AuthContext);
-  console.log("userID:", UserID);
+  // console.log("userID:"+ UserID);
   const [threads, setThreads] = useState([]);
   const [replies, setreplies] = useState([]);
+  const[threadUserID,setThreadUserID]=useState([]);
   useEffect(() => {
     fetchData();
   }, []);
@@ -47,6 +48,7 @@ const Thread = () => {
         replyContent: replyContent,
         status:0,
         threadID: threadID,
+        threadUserID:threadUserID,
         userID: UserID,
         userEmail: userEmail,
       }),
@@ -76,21 +78,40 @@ const Thread = () => {
         // Handle error
       }
     };
+    useEffect(() => {
+      const thread = threads.find((item) => threadID === item._id);
+      if (thread) {
+        setThreadUserID(thread.userID);
+      } else {
+        setThreadUserID('');
+      }
+    }, [threadID, threads]);
+    
+  
+    
   return (
     <>
       {threads.map((item) =>
+       
         threadID === item._id ? (
+         
+        
           <div className="jumbotron">
             <h2>{item.threadTile}</h2>
             <pre className="scroll">{item.threadDesc}</pre>
 
             <hr />
             <p className="p">
-              This is a peer to peer forum. No Spam / Advertising / Self-promote
-              in the forums is not allowed. Do not post copyright-infringing
-              material. Do not post “offensive” posts, links or images. Do not
-              cross post questions. Remain respectful of other members at all
-              times.
+            <details>
+            <summary>
+              <strong>Instraction</strong>
+            </summary>{" "}
+            This is a peer to peer forum. No Spam / Advertising / Self-promote
+            in the forums is not allowed. Do not post copyright-infringing
+            material. Do not post “offensive” posts, links or images. Do not
+            cross post questions. Remain respectful of other members at all
+            times.
+          </details>
             </p>
             <p className="user">
               <h2>Posted by: {item.userEmail}</h2>
@@ -99,9 +120,10 @@ const Thread = () => {
         ) : (
           <p></p>
         )
+        
       )}
 
-      <form className="form" action="" method="POST">
+      {token?(<form className="form" action="" method="POST">
         <h1>Post a Reply</h1>
 
         <div className="input">
@@ -126,24 +148,23 @@ const Thread = () => {
             value="submit"
           />
         </div>
-      </form>
+      </form>):(  <center>
+          <div
+            className="media"
+            style={{
+              color: "red",
+              width: "50%",
+              paddingtop: "15px",
+              borderradius: "1.6rem",
+            }}
+          >
+            <p>
+              You are not logged in. Please login to be able to post a Reply!
+            </p>
+          </div>
+        </center>)}
 
-      <center>
-        <div
-          className="media"
-          style={{
-            color: "red",
-            width: "40rem",
-            paddingtop: "0.8rem",
-            borderradius: "1.6rem",
-          }}
-        >
-          {/* <p>
-            You are not logged in. Please login to be able to start a
-            discussion!
-          </p> */}
-        </div>
-      </center>
+      
 
       <div className="parent">
   {replies
@@ -158,21 +179,21 @@ const Thread = () => {
             alt="profile img"
           />
         </div>
-        <div className="check">
+        <div className="check"> 
 
-         {item.userID===UserID? (item.status === "0" ? (
+         {item.threadUserID===UserID && token? (item.status === "0" ? (
             <FaRegCheckSquare
               className="FaRegCheckSquare"
               onClick={() => handleUpdateStatus(item._id)}
             />
           ) : (
-            <FaCheck className="FaRegCheckSquare" />
-          )):(null)}
+            <FaRegCheckSquare className="Checked" />
+          )):(item.status==='1'?(  <FaRegCheckSquare className="Checked" />):(null))}
         </div>
         <div className="name">
           <p>{item.userEmail}</p>
         </div>
-        <div className="cont">
+        <div className="cont"> 
           <div>
             <pre>{item.replyContent}</pre>
           </div>
@@ -219,10 +240,16 @@ const Thread = () => {
     .check {
       margin-left: auto;
     }
-    .FaRegCheckSquare{
+    .Checked{
       width: 50px;
       height: 50px;
       color:green;
+    }
+    .FaRegCheckSquare{
+      width: 50px;
+      height: 50px;
+      color:#b3aeae;
+
     }
     .parent{
         display: flex;
@@ -230,6 +257,7 @@ const Thread = () => {
         align-items:start;
         
     }
+    
     .cont pre{
        white-space:break-spaces;
     }

@@ -112,7 +112,7 @@ const YourQ = () => {
               borderRadius: "1.6rem",
             }}
           >
-            <p>Be the first person to ask the question</p>
+            <p>You Have Not Posted Any Question Yet</p>
           </div>
         </center>
       )}

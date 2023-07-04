@@ -126,9 +126,9 @@ router.post("/thread", async (req, res) => {
 // Repies
 router.post("/reply", async (req, res) => {
   console.log("reply");
-  const { replyContent, status,userID, threadID, userEmail } = req.body;
+  const { replyContent, status,userID,threadUserID, threadID, userEmail } = req.body;
   try {
-    const reply = new Reply({ replyContent,status, userID, threadID, userEmail });
+    const reply = new Reply({ replyContent,status, userID,threadUserID, threadID, userEmail });
     const succ = await reply.save();
 
     if (succ) {

@@ -22,6 +22,11 @@ const repliesSchema= new mongoose.Schema({
         ref: 'THREADS',
         required: true
     },
+    threadUserID:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'THREADS',
+        required: true
+    },
     userEmail: {
         type: String,
         ref: 'USER',

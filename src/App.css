@@ -59,6 +59,9 @@ li {
 li a:hover {
   color: brown;
 }
+.h{
+  color:#b3aeae;
+}
 .social-media {
   padding: 2rem;
   display: flex;
@@ -575,14 +578,23 @@ i {
 .containerAboutMe form {
   padding: 5rem 6rem 5rem 6rem;
 }
+.midleContainer{
+  display: flex;
+  background-color: #03424d;
+  border-radius: 15rem 20px 20px 20px;
+  box-shadow: -4px 4px 4px 5px rgb(29, 26, 26);
+}
+.edit{
+  margin-left: auto;
+}
 .innerContainerAboutMe {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
   justify-content: center;
-  background-color: #03424d;
-  border-radius: 15rem 20px 20px 20px;
-  box-shadow: -4px 4px 4px 5px rgb(29, 26, 26);
+  /* background-color: #03424d; */
+  /* border-radius: 15rem 20px 20px 20px;
+  box-shadow: -4px 4px 4px 5px rgb(29, 26, 26); */
 }
 .innerContainerAboutMe .colAboutme {
   display: flex;
