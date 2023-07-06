@@ -4,7 +4,7 @@ const dotenv = require("dotenv");
 // const cors = require("cors");
 
 dotenv.config({ path: "./config.env" });
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 5000;
 const authRouter = require("./Router/auth");
 const categoryRouter = require("./Router/categories");
 const connection = require("../backend/DB/conn");
@@ -28,6 +28,10 @@ app.use("/", categoryRouter); // ye use ker ziada better hy
 //     res.send(`hello server`);
 // })
 console.log("hello from  app.js");
+
+if(process.env.Node_ENV==="production"){
+  app.use(express.static("letme/build"));
+}
 
 connection().then(() => {
   app.listen(5000, () => {

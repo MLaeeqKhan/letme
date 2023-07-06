@@ -3,6 +3,9 @@ import {
   FaInstagramSquare,
   FaFacebookSquare,
 } from "react-icons/fa";
+import { MdEmail } from 'react-icons/md';
+import { FaMapMarkerAlt,FaPhone } from 'react-icons/fa';
+import { Link } from "react-router-dom";
 const Footer = () => {
   return (
     <>
@@ -27,14 +30,16 @@ const Footer = () => {
           </div>
           <div className="item item3">
             <h2>Quick Link</h2>
-            <p>Projects</p>
-            <p>FAQ</p>
+            
+              <Link to="https://chatdigi.000webhostapp.com/index.php"><p>codeQuery </p> </Link>
+           
+            
           </div>
           <div className="item item4">
             <h2>Contact Us</h2>
-            <p>+923183676399</p>
-            <p>khan@gmail.com</p>
-            <p>Johar Town Lahore, pakistan</p>
+            <p><FaPhone/>+92 317 4259279</p>
+            <p> <MdEmail className=""/>lk7715714@gmail.com</p>
+            <p> <FaMapMarkerAlt className=""/>Johar Town Lahore, pakistan</p>
           </div>
         </div>
         <div className="item item5">
@@ -43,15 +48,19 @@ const Footer = () => {
               <p>Copyright 2023 All rights reserved</p>
               <div className="icons">
                 <div className="img">
-                  <FaLinkedin className="footer-icons"/>
+                  <Link to="https://www.linkedin.com/in/m-laeeq-khan-113335247/">  <FaLinkedin className="footer-icons"/></Link>
+                
                 </div>
 
                 <div className="img">
-                  <FaFacebookSquare className="footer-icons"/>
+                  <Link to="https://www.facebook.com/mlaeeq.khan.5
+">  <FaFacebookSquare className="footer-icons"/></Link>
+                
                 </div>
 
                 <div className="img">
-                  <FaInstagramSquare className="footer-icons"/>
+                  <Link to="https://www.instagram.com/mlaeeqkhan/"> <FaInstagramSquare className="footer-icons"/></Link>
+                 
                 </div>
               </div>
             </div>

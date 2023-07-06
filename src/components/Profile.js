@@ -45,9 +45,11 @@ const Profile = () => {
           <form action="" method="POST">
               
             <div className="midleContainer">
-            <div className="editContainer"> {/* Add a new container for the "Edit" button */}
+
+            {/* <div className="editContainer"> 
          <FiEdit className="FiEdit" onClick={()=>navigator('/UpdateFormProfile')}/>
-        </div>
+        </div> */}
+
               <div className="innerContainerAboutMe">
 
                 <div className="colAboutme1 colAboutme">
