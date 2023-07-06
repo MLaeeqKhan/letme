@@ -1,6 +1,7 @@
 import axios from "axios"
 
 export const getCategories =async ()=>{
-    const data = await axios.get(`/getcategories`)
+    console.log("Categories");
+    const data = await axios.get(`http://localhost:5000/getcategories`)
     return data
 }

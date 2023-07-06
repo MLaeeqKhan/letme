@@ -4,6 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import { getThreads } from "../apis/threadApi";
 import { getCategories } from "../apis/categoryApi";
 import { AuthContext } from "../contexts/AuthContext";
+import { toast } from "react-hot-toast";
 
 // import {useNavigate} from 'react-router-dom'
 
@@ -44,7 +45,7 @@ const ThreadList = () => {
 
     const { threadTile, threadDesc } = question;
     try {
-      const res = await fetch("/thread", {
+      const res = await fetch("http://localhost:5000/thread", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -60,7 +61,8 @@ const ThreadList = () => {
       });
       const response = await res.json();
       if (res.status === 200 || response) {
-        window.alert("Data save");
+        // window.alert("Data save");
+        toast.success("Data Saved")
 
         resetFormFields();
         fetchData();

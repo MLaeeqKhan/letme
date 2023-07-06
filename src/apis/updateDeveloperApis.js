@@ -4,7 +4,7 @@ import axios from "axios";
 // Update developer profile
 export const updateDeveloper = async (formData) => {
   try {
-    const response = await axios.put("/updateProfile", formData, {
+    const response = await axios.put("http://localhost:5000/updateProfile", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },

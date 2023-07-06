@@ -27,6 +27,7 @@ const CreateProfile = () => {
     userID: "",
   });
   const [profileImg, setProfileImg] = useState(null);
+
   const [cv, setCV] = useState(null); // State to hold the profile image file
   const handleProfileImg = (e) => {
     setProfileImg(e.target.files[0]);
@@ -40,7 +41,6 @@ const CreateProfile = () => {
   //   setDeveloper({ ...developer, profileImg: e.target.files[0] });
   // };
 
-  
   let name, value;
   const handleInputs = (e) => {
     name = e.target.name;
@@ -57,7 +57,7 @@ const CreateProfile = () => {
     formData.append("areaOfTech", developer.areaOfTech);
     formData.append("experience", developer.experience);
     formData.append("jobType", developer.jobType);
-    formData.append("cv",cv)
+    formData.append("cv", cv);
     formData.append("skills", developer.skills);
     formData.append("languages", developer.languages);
     formData.append("email", developer.email);
@@ -87,7 +87,7 @@ const CreateProfile = () => {
     // const formData = new FormData();
     // formData.append("img", profileImg);
 
-    const res = await fetch("/createProfile", {
+    const res = await fetch("http://localhost:5000/createProfile", {
       method: "POST",
       // headers: {
       //   // "Content-Type": "multipart/form-data",
@@ -126,8 +126,23 @@ const CreateProfile = () => {
         <form action="" method="POST">
           <div className="innerContainerAboutMe">
             <div className="colAboutme1 colAboutme">
-              <label htmlFor="profileImg"> 
-            <input type="file" className="profileImg" id="profileImg" name="profileImg" onChange={handleProfileImg} /></label>
+              {profileImg ? (
+                <img
+                  src={URL.createObjectURL(profileImg)}
+                  alt="Preview"
+                  style={{ width: "200px" }}
+                />
+              ) : (
+                <label htmlFor="profileImg">
+                  <input
+                    type="file"
+                    className="profileImg"
+                    id="profileImg"
+                    name="profileImg"
+                    onChange={handleProfileImg}
+                  />
+                </label>
+              )}
             </div>
             <div className="colAboutme2 colAboutme">
               <label htmlFor="name">Name</label>
@@ -177,19 +192,21 @@ const CreateProfile = () => {
                   value="On-Sight"
                 />
                 <label htmlFor="jobType">On-Sight</label>
-
-                
-             
-              </div >
+              </div>
               <div className="cv">
                 <label for="cv">
-                <div className="selsectCV"> <input
-                type="file"
-                id="cv"
-                name="cv"
-                onChange={handleCV}
-                value={developer.cv}
-              /></div></label></div>
+                  <div className="selsectCV">
+                    {" "}
+                    <input
+                      type="file"
+                      id="cv"
+                      name="cv"
+                      onChange={handleCV}
+                      value={developer.cv}
+                    />
+                  </div>
+                </label>
+              </div>
             </div>
             <div className="colAboutme3 colAboutme">
               <label for="Skills">

@@ -1,10 +1,10 @@
 const express = require("express");
 const app = express();
 const dotenv = require("dotenv");
-// const cors = require("cors");
+const cors = require("cors");
 
 dotenv.config({ path: "./config.env" });
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT;
 const authRouter = require("./Router/auth");
 const categoryRouter = require("./Router/categories");
 const connection = require("../backend/DB/conn");
@@ -14,7 +14,7 @@ require("../backend/DB/conn");
 
 
 app.use(express.json());
-// app.use(cors()); // ye use kerna lazmy hy is ky begair server kisy ko b request bhejny nahi deta
+app.use(cors()); // ye use kerna lazmy hy is ky begair server kisy ko b request bhejny nahi deta
 
 // app.use(require('./Router/auth'));
 app.use('/public',express.static('public'));
@@ -29,9 +29,9 @@ app.use("/", categoryRouter); // ye use ker ziada better hy
 // })
 console.log("hello from  app.js");
 
-if(process.env.Node_ENV==="production"){
-  app.use(express.static("letme/build"));
-}
+// if(process.env.Node_ENV==="production"){
+//   app.use(express.static("letme/build"));
+// }
 
 connection().then(() => {
   app.listen(5000, () => {

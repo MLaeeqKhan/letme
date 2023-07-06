@@ -38,7 +38,7 @@ const Thread = () => {
     e.preventDefault();
 
     const { replyContent } = reply;
-    const res = await fetch("/reply", {
+    const res = await fetch("http://localhost:5000/reply", {
       method: "POST",
       headers: {
         "content-type": "application/json",

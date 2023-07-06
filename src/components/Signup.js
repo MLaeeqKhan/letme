@@ -21,7 +21,7 @@ const Signup = () => {
    
   const {email,pass,cPass}=user;
   // console.log("Email:"+email);
-   const res = await fetch("/signup",{ 
+   const res = await fetch("http://localhost:5000/signup",{ 
       method:"POST",
       headers:{
         "content-type":"application/json"

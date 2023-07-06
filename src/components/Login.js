@@ -1,6 +1,7 @@
 import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
+import { toast } from "react-hot-toast";
 const Login = () => {
   const navigator = useNavigate();
   const [credPrompt,setCredPrompt ]=useState('none');
@@ -13,7 +14,7 @@ const Login = () => {
 
   const loginUser = async (e) => {
     e.preventDefault();
-    const res = await fetch("/signin", {
+    const res = await fetch("http://localhost:5000/signin", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -34,7 +35,8 @@ const Login = () => {
       setUserToken(data)
       
       // localStorage.setItem("token",JSON.stringify(data.token));
-      window.alert("Login Successfull");
+      // window.alert("Login Successfull");
+      toast.success("Login successful")
       navigator("/");
     }
   };

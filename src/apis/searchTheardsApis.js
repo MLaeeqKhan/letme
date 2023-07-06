@@ -3,7 +3,7 @@ import axios from 'axios';
 
 export const getThreads = async () => {
     try {
-      const response = await axios.get('/getThreads');
+      const response = await axios.get('http://localhost:5000/getThreads');
       return response.data.threads;
     } catch (error) {
       console.error(error);
@@ -15,7 +15,7 @@ export const searchThreads = async (text) => {
     console.log('searchThreadApis');
 
     try {
-      const response = await axios.get(`/search?text=${text}`);
+      const response = await axios.get(`http://localhost:5000/search?text=${text}`);
       return response.data;
     } catch (error) {
       console.error(error);
