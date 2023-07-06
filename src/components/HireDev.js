@@ -34,7 +34,7 @@ const HireDev = () => {
       </header>
       <section className="deveSection">
         <div className="filter">
-          <input type="text" value={filterText} onChange={handleFilterChange} placeholder="Filter" />
+          <input type="text"  value={filterText} onChange={handleFilterChange} placeholder="Filter" />
         </div>
         {filteredDeveloper.map((items) => (
           <Link to={`/ShowDev/${items._id}`} key={items._id}>

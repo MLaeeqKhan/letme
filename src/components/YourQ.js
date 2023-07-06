@@ -6,6 +6,8 @@ import { updateThread } from '../apis/threadUpdateApis';
 import {getThreads} from '../apis/threadApi';
 import { AuthContext } from '../contexts/AuthContext';
 import { deleteThread } from '../apis/threadDeleteApis';
+// import {deleteReplies} from '../apis/repliesDeleteApis;
+import {deleteReplies} from '../apis/repliesDeleteApis';
 
 const YourQ = () => {
   const [threads, setThreads] = useState([]);
@@ -22,6 +24,7 @@ const YourQ = () => {
   const handleDelete = async (threadId) => {
     try {
       await deleteThread(threadId);
+      await deleteReplies(threadId);
       // Remove the deleted thread from the threads state
       setThreads((prevThreads) => prevThreads.filter((thread) => thread._id !== threadId));
       console.log('Thread deleted successfully');

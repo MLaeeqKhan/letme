@@ -91,7 +91,7 @@ const NavBar = () => {
                   >
                     <li>
                       <Link to={token?"/HireDev":"/login"} onClick={hanldeDropDownManue}>
-                        HireDevelopers
+                        ConnectDevelopers
                       </Link>
                     </li>
                     <li>
@@ -156,7 +156,7 @@ const NavBar = () => {
                 >
                   <li>
                     <Link to={token?"/HireDev":"/login"} onClick={hanldeDropDownManue}>
-                      HireDevelopers
+                      ConnectDevelopers
                     </Link>
                   </li>
                   <li>

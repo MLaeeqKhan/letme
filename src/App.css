@@ -454,6 +454,15 @@ html {
   height: 100vh;
   padding: 2rem;
 }
+.FaLinkedin{
+  margin: 20px;
+}
+.MdEmail{
+  margin: 20px;
+}
+.FaMapMarkerAlt {
+  margin: 20px;
+}
 .inner {
   margin: 2rem;
 }
@@ -465,6 +474,7 @@ html {
 .contacts {
   display: flex;
   box-shadow: -4px 4px 5px black;
+  height: 80px;
 
   /* background-color: rgb(238, 236, 233); */
   background-color: white;
@@ -543,6 +553,13 @@ i {
   text-align: center;
   box-shadow: -4px 4px 5px rgba(0, 0, 0, 0.192);
 }
+.filter input{
+  border: 2px solid rgb(119, 106, 106);
+  border-radius: 5px;
+  width: 17rem;
+  height: 30px;
+  padding: 5px;
+}
 .deveSection .image {
   border-radius: 50px;
 }
@@ -579,13 +596,20 @@ i {
   padding: 5rem 6rem 5rem 6rem;
 }
 .midleContainer{
-  display: flex;
+  /* display: flex; */
   background-color: #03424d;
   border-radius: 15rem 20px 20px 20px;
   box-shadow: -4px 4px 4px 5px rgb(29, 26, 26);
 }
-.edit{
-  margin-left: auto;
+.editContainer{
+  padding: 20px;
+  display: flex;
+ justify-content: flex-end;
+}
+.FiEdit{
+color: white;
+  height: 30px;
+  width: 30px;
 }
 .innerContainerAboutMe {
   display: flex;

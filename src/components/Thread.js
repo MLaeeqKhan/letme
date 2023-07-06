@@ -73,6 +73,7 @@ const Thread = () => {
     const handleUpdateStatus = async (id) => {
       try {
         await updateReply(id, '1');
+        fetchData();
         // Handle success
       } catch (error) {
         // Handle error
@@ -225,6 +226,9 @@ const Thread = () => {
     #reply{
         min-height: 43px;
         margin: 2rem;
+    }
+    .user h2{
+      font-size:1rem;
     }
     .media  {
         display:flex;

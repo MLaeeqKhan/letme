@@ -1,8 +1,11 @@
+//Profile.js file
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { getDeveloper } from "../apis/developerAPIs";
 import { AuthContext } from "../contexts/AuthContext";
+import { FiEdit } from 'react-icons/fi';
+
 
 const Profile = () => {
   const navigator = useNavigate();
@@ -40,15 +43,20 @@ const Profile = () => {
       <div className="containerAboutMe">
         {foundDeveloper ? (
           <form action="" method="POST">
+              
             <div className="midleContainer">
-              <button className="edit">Edit</button>
+            <div className="editContainer"> {/* Add a new container for the "Edit" button */}
+         <FiEdit className="FiEdit" onClick={()=>navigator('/UpdateFormProfile')}/>
+        </div>
               <div className="innerContainerAboutMe">
+
                 <div className="colAboutme1 colAboutme">
                   <img
                     src={imgPath + foundDeveloper.profileImg}
                     alt="ProfileImg"
                   />
                 </div>
+
                 <div className="colAboutme2 colAboutme">
                   <label htmlFor="name">{foundDeveloper.name}</label>
 
@@ -136,6 +144,7 @@ const Profile = () => {
                     </div>
                   </div>
                 </div>
+
               </div>
             </div>
             {/* <input type="submit" className="Create" value="Create"/> */}

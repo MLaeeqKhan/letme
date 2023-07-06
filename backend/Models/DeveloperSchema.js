@@ -1,3 +1,4 @@
+//developerSchema.js
 const mongoose = require("mongoose");
 const developerSchema = new mongoose.Schema({
   profileImg: {

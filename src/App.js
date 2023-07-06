@@ -21,6 +21,7 @@ import Thread from './components/Thread';
 import ShowDev from './components/ShowDev';
 import Search from './components/Search';
 import ThreadUpdateForm from './components/ThreadUpdateForm';
+import UpdateFormProfile from './components/UpdateFormProfile';
 
 function App() {
   return (
@@ -54,6 +55,7 @@ function App() {
       <Route exact path='/Search/:sContent' element={<Search/>}/>
       <Route exact path='/Search/:sContent' element={<Search/>}/>
       <Route exact path='/ThreadUpdateForm/:id' element={<ThreadUpdateForm/>}/>
+      <Route exact path='/UpdateFormProfile' element={<UpdateFormProfile/>}/>
      
       {/* <Route element={<ErrorPage />}/> */}
       

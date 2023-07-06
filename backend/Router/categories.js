@@ -1,10 +1,11 @@
 // controller files
 const express = require("express");
+const router = express.Router();
 const categories = require("../Models/categoriesSchema");
 const threads=require('../Models/threadsSchema')
 const replies=require('../Models/Replies');
 const developers = require('../Models/DeveloperSchema');
-const router = express.Router();
+
 
 router.get("/getcategories", async (req, res) => {
   try {
@@ -37,6 +38,8 @@ router.get("/getReplies", async (req, res) => {
   }
 });
 
+// getDeveloper
+//controller.js file
 try {
   router.get("/getDeveloper",async(req,res)=>{
     const developer= await developers.find();
@@ -98,35 +101,7 @@ router.get('/search', async (req, res) => {
 });
 
 
-// router.get('/search', async (req, res) => {
-//   const searchText = req.query.text; // Get the search text from the query parameter
 
-//   try {
-//     // Perform the text search using $or operator on threadTitle and threadDesc fields
-//     const thread = await threads.find({
-//       $or: [
-//         { threadTile: { $regex: searchText, $options: 'i' } },
-//         { threadDesc: { $regex: searchText, $options: 'i' } }
-//       ]
-//     });
-
-//     res.json(thread);
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ message: 'Internal server error' });
-//   }
-// });
-
-// // Get all threads
-// router.get('/getThreads', async (req, res) => {
-//   try {
-//     const thread = await threads.find();
-//     res.json({ thread });
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ message: 'Internal server error' });
-//   }
-// });
 
 router.put("/updateThread/:id", async (req, res) => {
   const { id } = req.params;
@@ -159,6 +134,20 @@ router.delete("/deleteThread/:id", async (req, res) => {
   }
 });
 
+// Delete replies by thread ID
+router.delete("/deleteReplies/:threadID", async (req, res) => {
+  const { threadID } = req.params;
+  console.log('threadID:', threadID);
+  try {
+    await replies.deleteMany({ threadID: threadID });
+    res.sendStatus(204); // No Content
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+
 // update reply status
 router.put("/updateReply/:id", async (req, res) => {
   const { id } = req.params;
@@ -171,5 +160,37 @@ router.put("/updateReply/:id", async (req, res) => {
     res.send(error);
   }
 });
+
+// Update developer profile
+// Update developer profile
+const updateProfile = async (req, res) => {
+  try {
+    // Get the developer's user ID from the authenticated user
+    const userID = req.user.id;
+
+    // Find the developer in the database based on the user ID
+    const developer = await developers.findOneAndUpdate(
+      { userID },
+      req.body.developerData,
+      { new: true }
+    );
+
+    if (!developer) {
+      // If developer is not found, return an error
+      return res.status(404).json({ message: "Developer not found." });
+    }
+
+    res.status(200).json({ message: "Developer profile updated successfully!" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Failed to update developer profile." });
+  }
+};
+
+module.exports = {
+  // ...
+  updateProfile,
+};
+
 
 module.exports = router;
